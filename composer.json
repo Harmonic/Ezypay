@@ -1,0 +1,43 @@
+{
+    "name": "harmonic/ezypay",
+    "description": ":description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Craig Harman",
+            "email": "craig@harmonic.com.au",
+            "homepage": "https://harmonic.com.au"
+        }
+    ],
+    "homepage": "https://github.com/harmonic/ezypay",
+    "keywords": ["Laravel", "Ezypay"],
+    "require": {
+        "illuminate/support": "~5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "mockery/mockery": "^1.1",
+        "orchestra/testbench": "~3.0",
+        "sempro/phpunit-pretty-print": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "harmonic\\Ezypay\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "harmonic\\Ezypay\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "harmonic\\Ezypay\\EzypayServiceProvider"
+            ],
+            "aliases": {
+                "Ezypay": "harmonic\\Ezypay\\Facades\\Ezypay"
+            }
+        }
+    }
+}
