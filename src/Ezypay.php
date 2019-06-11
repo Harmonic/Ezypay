@@ -204,7 +204,7 @@ class Ezypay
         $tokenData = json_decode($tokenDataFile, true);
 
         $now = Carbon::now();
-        $tokenIsExpired = ($now->gte(new Carbon($tokenData['expiration']['date'])));
+        $tokenIsExpired = ($now->gte(new Carbon($tokenData['expiration'])));
 
         if ($tokenIsExpired) {
             $tokenData = $this->requestToken($tokenData['refresh_token']);
