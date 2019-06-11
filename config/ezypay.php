@@ -2,7 +2,6 @@
 
 // There are 3 URLs used by ezypay (api, vault and token)
 // This code calculates each
-
 $url = env('EZY_PAY_API_URL');
 $tokenURL = 'https://identity.ezypay.com/token';
 $vaultURL = 'https://vault.ezypay.com';

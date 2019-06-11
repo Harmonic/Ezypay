@@ -165,7 +165,7 @@ class Ezypay
             $data['grant_type'] = 'password';
             $data['username'] = config('ezypay.user');
             $data['password'] = config('ezypay.password');
-            $data['scope'] = 'integrator hosted_payment';
+            $data['scope'] = 'integrator billing_profile create_payment_method offline_access';
         }
 
         $response = $client->post($url, [
