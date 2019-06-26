@@ -69,7 +69,7 @@ class EzypayFake {
             'planId' => $planId ?? $this->faker->uuid,
             'name' => 'Share Link Bronze',
             'status' => 'FUTURE',
-            'startDate' => $startDate ?? Carbon::now()->addDays(config('ezypay.trial_days')),
+            'startDate' => $startDate ?? Carbon::now()->addDays(config('ezypay.trial_days'))->toDateTimeString(),
             'endDate' => null,
             'paymentMethodToken' => $paymentMethodToken ?? $this->faker->uuid,
             'accountingCode' => 'SLB',
