@@ -4,21 +4,23 @@ namespace harmonic\Ezypay\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Vault extends JsonResource {
+class Vault extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         $bank = null;
         $card = null;
 
-        if (!empty($this->resource['bank'])) {
+        if (! empty($this->resource['bank'])) {
             $bank = Bank::make($this->resource['bank'])->resolve();
         }
-        if (!empty($this->resource['card'])) {
+        if (! empty($this->resource['card'])) {
             $card = Card::make($this->resource['card'])->resolve();
         }
 

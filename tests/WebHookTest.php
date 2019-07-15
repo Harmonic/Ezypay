@@ -2,40 +2,42 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class WebHookTest extends EzypayBaseTest {
+class WebHookTest extends EzypayBaseTest
+{
     /**
-     * Can get a list of WebHook
+     * Can get a list of WebHook.
      *
      * @test
      * @return void
      */
-    public function getAListOfWebHook() {
+    public function getAListOfWebHook()
+    {
         // Arrange
         //
 
         // Act
-
         $webhooks = Ezypay::getWebhooks();
 
         // Assert
         $this->assertNotNull($webhooks);
+        $this->assertTrue(array_key_exists('data', $webhooks));
     }
 
     /**
-     * Can create WebHook
+     * Can create WebHook.
      *
      * @test
      * @return void
      */
-    public function canCreateWebhook() {
+    public function canCreateWebhook()
+    {
         // Arrange
-        $url = 'http://api.sample' . uniqid() . '.test';
+        $url = 'http://api.sample'.uniqid().'.test';
 
         // Act
-        $webhook = Ezypay::createWebHook($url, ['customer_create']);
+        $webhook = Ezypay::createWebhook($url, ['customer_create']);
 
         // Assert
         $this->assertNotNull($webhook);
@@ -43,12 +45,13 @@ class WebHookTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get a list of WebHook logs
+     * Can get a list of WebHook logs.
      *
      * @test
      * @return void
      */
-    public function getAListOfWebHookLogs() {
+    public function getAListOfWebHookLogs()
+    {
         // Arrange
 
         // Act
@@ -59,14 +62,14 @@ class WebHookTest extends EzypayBaseTest {
     }
 
     /**
-     * Can Simulate a webhook event
+     * Can Simulate a webhook event.
      *
      * @test
      * @return void
      */
-    public function canSimulateWebhook() {
+    public function canSimulateWebhook()
+    {
         // Arrange
-        
 
         // Act
 
@@ -78,13 +81,14 @@ class WebHookTest extends EzypayBaseTest {
     }
 
     /**
-     * Can Retrieve webhook details
+     * Can Retrieve webhook details.
      *
      * @test
      * @return void
      */
-    public function canGetWebhookDetails() {
-        // Arrange    
+    public function canGetWebhookDetails()
+    {
+        // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 
         // Act
@@ -92,15 +96,17 @@ class WebHookTest extends EzypayBaseTest {
 
         // Assert
         $this->assertNotNull($webhook);
+        $this->assertEquals(($webhooks['data'][0])['id'], $webhook['id']);
     }
 
     /**
-     * Can Update webhook
+     * Can Update webhook.
      *
      * @test
      * @return void
      */
-    public function canUpdateWebhook() {
+    public function canUpdateWebhook()
+    {
         // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 
@@ -110,16 +116,16 @@ class WebHookTest extends EzypayBaseTest {
         // Assert
         $this->assertNotNull($webhook);
         $this->assertTrue(in_array('partner_invoice_past_due', $webhook['eventTypes']));
-        
     }
 
     /**
-     * Can delete webhook
+     * Can delete webhook.
      *
      * @test
      * @return void
      */
-    public function canDeleteWebhook() {
+    public function canDeleteWebhook()
+    {
         // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 

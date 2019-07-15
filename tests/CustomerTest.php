@@ -2,22 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 use Illuminate\Foundation\Testing\WithFaker;
 
-
-class CustomerTest extends EzypayBaseTest {
+class CustomerTest extends EzypayBaseTest
+{
     use WithFaker;
-    
 
     /**
-     * Create a test customer
+     * Create a test customer.
      *
      * @test
      * @return void
      */
-    public function createACustomer() {
+    public function createACustomer()
+    {
         // Arrange
 
         // Act
@@ -30,41 +29,39 @@ class CustomerTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get a list of customers
+     * Can get a list of customers.
      *
      * @test
      * @return void
      */
-    public function getAListOfCustomers() {
+    public function getAListOfCustomers()
+    {
         // Arrange
         // Act
-
         $customers = Ezypay::getCustomers(true, 'testName');
 
         // Assert
-        $this->assertEquals(true, $customers['fetchAll']);
-
-        $this->assertTrue(array_key_exists('id', $customers[0]));
-        $this->assertTrue(array_key_exists('email', $customers[0]));
-        $this->assertTrue(array_key_exists('address', $customers[0]));
-        $this->assertTrue(array_key_exists('address1', $customers[0]['address']));
+        $this->assertTrue(array_key_exists('data', $customers));
+        $this->assertTrue(array_key_exists('email', $customers['data'][0]));
+        $this->assertTrue(array_key_exists('address', $customers['data'][0]));
     }
 
     /**
-     * Can get specific Customer
+     * Can get specific Customer.
      *
      * @test
      * @return void
      */
-    public function getCustomerById() {
+    public function getCustomerById()
+    {
         // Arrange
         // Act
         $customers = Ezypay::getCustomers();
 
-        $customer = Ezypay::getCustomer($customers[0]['id']);
+        $customer = Ezypay::getCustomer($customers['data'][0]['id']);
 
         // Assert
-        $this->assertEquals($customers[0]['id'], $customer['id']);
+        $this->assertEquals($customers['data'][0]['id'], $customer['id']);
 
         $this->assertTrue(array_key_exists('id', $customer));
         $this->assertTrue(array_key_exists('email', $customer));
@@ -73,12 +70,13 @@ class CustomerTest extends EzypayBaseTest {
     }
 
     /**
-     * Update Customer
+     * Update Customer.
      *
      * @test
      * @return void
      */
-    public function updateCustomer() {
+    public function updateCustomer()
+    {
         // Arrange
         $this->faker->addProvider(new \Faker\Provider\en_AU\Address($this->faker));
         $firstName = $this->faker->firstName;
@@ -86,7 +84,7 @@ class CustomerTest extends EzypayBaseTest {
         // Act
 
         $customers = Ezypay::getCustomers();
-        $customerToUpdate = $customers[0];
+        $customerToUpdate = $customers['data'][0];
 
         $updatedCustomer = Ezypay::updateCustomer(
             $customerToUpdate['id'],

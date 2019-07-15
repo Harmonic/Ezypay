@@ -2,30 +2,32 @@
 
 namespace harmonic\Ezypay\Traits;
 
-trait Settlement {
+trait Settlement
+{
     /**
-     * Get a list of Settlements from Ezypay server
+     * Get a list of Settlements from Ezypay server.
      *
-     * @param boolean $fetchAll
+     * @param bool $fetchAll
      * @param string $from
      * @param string $until
-     * @param integer $limit
-     * @param integer $cursor
-     * @return Object Settlements
+     * @param int $limit
+     * @param int $cursor
+     * @return object Settlements
      */
-    public function getSettlements(bool $fetchAll = false, string $from = null, string $until = null, int $limit = null, int $cursor = null) {
+    public function getSettlements(bool $fetchAll = false, string $from = null, string $until = null, int $limit = null, int $cursor = null)
+    {
         $filters = [
             'from' => $from,
             'until' => $until,
             'limit' => $limit,
-            'cursor' => $cursor
+            'cursor' => $cursor,
         ];
 
         return $this->paginate('billing/settlements', $filters, $fetchAll);
     }
 
     /**
-     * Group Settlement Report by Accounting Code
+     * Group Settlement Report by Accounting Code.
      *
      * @param string $dateFrom
      * @param string $dateTo
@@ -33,20 +35,22 @@ trait Settlement {
      * @param array $merchantIds
      * @return void
      */
-    public function groupSettlementReportByAccountingCode(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = []) {
+    public function groupSettlementReportByAccountingCode(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = [])
+    {
         $data = [
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'documentType' => $documentType,
-            'merchantIds' => $merchantIds
+            'merchantIds' => $merchantIds,
         ];
 
         $response = $this->request('POST', 'billing/settlements/groupedbyaccountingcode/file', $data);
+
         return \harmonic\Ezypay\Resources\Settlement::make($response)->resolve();
     }
 
     /**
-     * Group Settlement Report by Transaction Status
+     * Group Settlement Report by Transaction Status.
      *
      * @param string $dateFrom
      * @param string $dateTo
@@ -54,42 +58,48 @@ trait Settlement {
      * @param array $merchantIds
      * @return void
      */
-    public function groupSettlementReportByTransactionStatus(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = []) {
+    public function groupSettlementReportByTransactionStatus(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = [])
+    {
         $data = [
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
             'documentType' => $documentType,
-            'merchantIds' => $merchantIds
+            'merchantIds' => $merchantIds,
         ];
 
         $response = $this->request('POST', 'billing/settlements/groupedbytransactionstatus/file', $data);
+
         return \harmonic\Ezypay\Resources\Settlement::make($response)->resolve();
     }
 
     /**
-     * Create a settlement report file
+     * Create a settlement report file.
      *
      * @param string $settlementID The ID of the settlement report (from getSettlements)
      * @param string $type Should be 'summary_report' (default) or 'detail_report'
      * @return void
      */
-    public function createSettlementFile(string $settlementID, string $type = 'summary_report') {
+    public function createSettlementFile(string $settlementID, string $type = 'summary_report')
+    {
         $data = [
-            'documentType' => $type
+            'documentType' => $type,
         ];
 
-        $response = $this->request('POST', 'billing/settlements/' . $settlementID . '/file', $data);
+        $response = $this->request('POST', 'billing/settlements/'.$settlementID.'/file', $data);
+
         return \harmonic\Ezypay\Resources\Settlement::make($response)->resolve();
     }
 
     /**
-     * Get a link to a settlement file
+     * Get a link to a settlement file.
      *
      * @param string $settlementField The settlement field ID from calling createSettlementFile
      * @return void
      */
-    public function getSettlementFileURL(string $settlementField) {
-        $response = $this->request('GET', 'files/' . $settlementField);
+    public function getSettlementFileURL(string $settlementField)
+    {
+        $response = $this->request('GET', 'files/'.$settlementField);
+
         return \harmonic\Ezypay\Resources\SettlementFile::make($response)->resolve();
     }
 }

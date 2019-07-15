@@ -2,11 +2,10 @@
 
 namespace harmonic\Ezypay\Traits;
 
-use Symfony\Component\Routing\Exception\InvalidParameterException;
-
-trait CreditNote {
+trait CreditNote
+{
     /**
-     * Get credit notes
+     * Get credit notes.
      *
      * @param string $customerId
      * @param string $subscriptionId
@@ -16,11 +15,12 @@ trait CreditNote {
      * @param string $reason
      * @param string $from
      * @param string $until
-     * @param integer $limit
-     * @param integer $cursor
+     * @param int $limit
+     * @param int $cursor
      * @return array
      */
-    public function getCreditNotes(string $customerId, string $subscriptionId = null, string $invoiceId = null, bool $fetchAll = false, string $status = null, string $reason = null, string $from = null, string $until = null, int $limit = null, int $cursor = null) {
+    public function getCreditNotes(string $customerId, string $subscriptionId = null, string $invoiceId = null, bool $fetchAll = false, string $status = null, string $reason = null, string $from = null, string $until = null, int $limit = null, int $cursor = null)
+    {
         $filters = [
             'customerId' => $customerId,
             'subscriptionId' => $subscriptionId,
@@ -30,20 +30,21 @@ trait CreditNote {
             'from' => $from,
             'until' => $until,
             'limit' => $limit,
-            'cursor' => $cursor
+            'cursor' => $cursor,
         ];
 
         return $this->paginate('billing/creditnotes', $filters, $fetchAll);
     }
 
     /**
-     * Get a specific credit note
+     * Get a specific credit note.
      *
      * @param string $creditNoteId
-     * @return Object
+     * @return object
      */
-    public function getCreditNote(string $creditNoteId) {
-        $response = $this->request('GET', 'billing/creditnotes/' . $creditNoteId);
+    public function getCreditNote(string $creditNoteId)
+    {
+        $response = $this->request('GET', 'billing/creditnotes/'.$creditNoteId);
 
         return \harmonic\Ezypay\Resources\CreditNote::make($response)->resolve();
     }

@@ -52,7 +52,7 @@ class EzypayServiceProvider extends ServiceProvider
     {
         return ['ezypay'];
     }
-    
+
     /**
      * Console-specific booting.
      *

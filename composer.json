@@ -1,6 +1,6 @@
 {
     "name": "harmonic/ezypay",
-    "description": ":description",
+    "description": "A PHP SDK for the Ezypay v2.0 API",
     "license": "MIT",
     "authors": [
         {

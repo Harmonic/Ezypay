@@ -15,10 +15,10 @@ class WebHook extends JsonResource
     public function toArray($request)
     {
         return [
-			'id' => $this->resource['id'],
-			'createdOn' => $this->resource['createdOn'],
-			'url' => $this->resource['url'],
-			'eventTypes' => $this->resource['eventTypes'],
-		];
+            'id' => $this->resource['id'],
+            'createdOn' => $this->resource['createdOn'],
+            'url' => $this->resource['url'],
+            'eventTypes' => $this->resource['eventTypes'],
+        ];
     }
 }
