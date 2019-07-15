@@ -1,4 +1,4 @@
-# Ezypay
+# Ezypay PHP SDK
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -9,19 +9,19 @@ A Laravel/PHP SDK for the Ezypay v2 API. Take a look at [contributing.md](contri
 
 ## Installation
 
-###Via Composer
+### Via Composer
 
 ``` bash
 $ composer require harmonic/ezypay
 ```
 
-###Publish config file
+### Publish config file
 
 ``` bash
 php artisan vendor:publish --provider="harmonic\Ezypay"
 ```
 
-###Alias
+### Alias
 
 Optionally add Ezypay alias tp app.php config file:
 
