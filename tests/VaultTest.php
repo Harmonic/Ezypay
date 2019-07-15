@@ -2,22 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
-use Illuminate\Support\Carbon;
-use harmonic\Models\Ezypay as EzypayModel;
 use Illuminate\Foundation\Testing\WithFaker;
 
-class VaultTest extends EzypayBaseTest {
+class VaultTest extends EzypayBaseTest
+{
     use WithFaker;
 
     /**
-     * Create a bank payment vault method
+     * Create a bank payment vault method.
      *
      * @test
      * @return void
      */
-    public function createABankPaymentVaultMethod() {
+    public function createABankPaymentVaultMethod()
+    {
         // Arrange
         $accountHolderName = $this->faker->company;
         $accountNumber = $this->faker->randomNumber(9);
@@ -39,14 +38,15 @@ class VaultTest extends EzypayBaseTest {
     }
 
     /**
-     * Create a credit card payment vault method
+     * Create a credit card payment vault method.
      *
      * @test
      * @return void
      */
-    public function createACreditCardPaymentVaultMethod() {
+    public function createACreditCardPaymentVaultMethod()
+    {
         // Arrange
-        $accountHolderName = $this->faker->firstName . ' ' . $this->faker->lastName;
+        $accountHolderName = $this->faker->firstName.' '.$this->faker->lastName;
         $cardNumber = $this->faker->creditCardNumber;
         $expiryMonth = $this->faker->month();
         $expiryYear = $this->faker->dateTimeBetween('now', '10 years')->format('y');
@@ -61,14 +61,15 @@ class VaultTest extends EzypayBaseTest {
     }
 
     /**
-     * Can Retrieve a payment method token
+     * Can Retrieve a payment method token.
      *
      * @test
      * @return void
      */
-    public function canGetPaymentMethod() {
+    public function canGetPaymentMethod()
+    {
         // Arrange
-        if (!isset($this->vaultPayment)) {
+        if (! isset($this->vaultPayment)) {
             $this->createABankPaymentVaultMethod();
         }
 

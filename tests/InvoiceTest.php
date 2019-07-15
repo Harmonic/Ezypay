@@ -2,19 +2,19 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
-use harmonic\Ezypay\Facades\Ezypay;
 use harmonic\Enums\InvoiceStatus;
+use harmonic\Ezypay\Facades\Ezypay;
 
-class InvoiceTest extends EzypayBaseTest {
-
+class InvoiceTest extends EzypayBaseTest
+{
     /**
-     * Can get a list of invoices
+     * Can get a list of invoices.
      *
      * @test
      * @return void
      */
-    public function getAListOfInvoices() {
+    public function getAListOfInvoices()
+    {
         // Arrange
         // Act
         $invoices = Ezypay::getInvoices(false, null, null, null, null, null, 1);
@@ -28,28 +28,29 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can create invoice
+     * Can create invoice.
      *
      * @test
      * @return void
      */
-    public function canCreateInvoice() {
+    public function canCreateInvoice()
+    {
         // Arrange
         $customerId = $this->faker->uuid;
         $paymentMethodToken = $this->faker->uuid;
 
         // Act
         $invoice = Ezypay::createInvoice(
-            $customerId, 
+            $customerId,
             [
                 (object) [
                     'description' => 'Share Link Bronze',
                     'amount' => (object) [
                         'currency' => 'AUD',
-                        'value' => 29.7
-                    ]
-                ]
-            ], 
+                        'value' => 29.7,
+                    ],
+                ],
+            ],
             $paymentMethodToken);
 
         // Assert
@@ -66,14 +67,15 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get invoice by ID
+     * Can get invoice by ID.
      *
      * @test
      * @return void
      */
-    public function canGetSpecificInvoiceById() {
+    public function canGetSpecificInvoiceById()
+    {
         // Arrange
-        if (!isset($this->invoice)) {
+        if (! isset($this->invoice)) {
             $this->canCreateInvoice();
         }
 
@@ -90,14 +92,15 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can record external payment
+     * Can record external payment.
      *
      * @test
      * @return void
      */
-    public function canRecordExternalPayment() {
+    public function canRecordExternalPayment()
+    {
         // Arrange
-        $invoiceList = Ezypay::getInvoices(false, "", "", "PROCESSING", "", "", 1);
+        $invoiceList = Ezypay::getInvoices(false, '', '', 'PROCESSING', '', '', 1);
         $invoiceResult = $invoiceList['data'][0];
         // Act
         $invoice = Ezypay::recordExternalPayment($invoiceResult['id'], 'cash');
@@ -108,14 +111,15 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can refund invoice
+     * Can refund invoice.
      *
      * @test
      * @return void
      */
-    public function canRefundInvoice() {
+    public function canRefundInvoice()
+    {
         // Arrange
-        $paidInvoices = Ezypay::getInvoices(false, $this->faker->uuid, null, "PAID", null, null);
+        $paidInvoices = Ezypay::getInvoices(false, $this->faker->uuid, null, 'PAID', null, null);
         $paidInvoice = $paidInvoices['data'][0];
 
         // Act
@@ -127,12 +131,13 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can retry payment
+     * Can retry payment.
      *
      * @test
      * @return void
      */
-    public function canRetryPayment() {
+    public function canRetryPayment()
+    {
         // Arrange
         $customer = EzyPay::createCustomer();
 
@@ -141,9 +146,9 @@ class InvoiceTest extends EzypayBaseTest {
                 'description' => 'Share Link Bronze',
                 'amount' => (object) [
                     'currency' => 'AUD',
-                    'value' => 29.7
-                ]
-            ]
+                    'value' => 29.7,
+                ],
+            ],
         ]);
 
         // Act
@@ -159,14 +164,15 @@ class InvoiceTest extends EzypayBaseTest {
     }
 
     /**
-     * Can write off invoice
+     * Can write off invoice.
      *
      * @test
      * @return void
      */
-    public function canWriteOffInvoice() {
+    public function canWriteOffInvoice()
+    {
         // Arrange
-        $invoiceList = Ezypay::getInvoices(false, null, null, "PAST_DUE", null, null, 1);
+        $invoiceList = Ezypay::getInvoices(false, null, null, 'PAST_DUE', null, null, 1);
 
         // Act
         $invoice = Ezypay::writeOffAnInvoice($invoiceList['data'][0]['id']);
@@ -177,7 +183,7 @@ class InvoiceTest extends EzypayBaseTest {
         $this->assertEquals('WRITTEN_OFF', $invoice['status']);
     }
 
-    /**
+    /*
      * Can update invoice
      * @todo block with this error message
      * 1) Tests\Feature\InvoiceTest::canUpdateInvoice

@@ -2,17 +2,18 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class EventTest extends EzypayBaseTest {
+class EventTest extends EzypayBaseTest
+{
     /**
-     * Can resend event
+     * Can resend event.
      *
      * @test
      * @return void
      */
-    public function canResendEvent() {
+    public function canResendEvent()
+    {
         // Act
         $events = Ezypay::resendEvent($this->faker->uuid);
         // Assert

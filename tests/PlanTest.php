@@ -2,17 +2,18 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class PlanTest extends EzypayBaseTest {
+class PlanTest extends EzypayBaseTest
+{
     /**
-     * Can create Plan
+     * Can create Plan.
      *
      * @test
      * @return void
      */
-    public function canCreatePlan() {
+    public function canCreatePlan()
+    {
         // Arrange
         // Act
         $plan = Ezypay::createPlan('Testing Plan', uniqid(), 50.1);
@@ -27,12 +28,13 @@ class PlanTest extends EzypayBaseTest {
     }
 
     /**
-     * Get a list of plans
+     * Get a list of plans.
      *
      * @test
      * @return void
      */
-    public function getsAListOfPlans() {
+    public function getsAListOfPlans()
+    {
         // Arrange
         // Act
         $plans = Ezypay::getPlans();
@@ -45,14 +47,15 @@ class PlanTest extends EzypayBaseTest {
     }
 
     /**
-     * Update a plan
+     * Update a plan.
      *
      * @test
      * @return void
      */
-    public function canUpdateDetailsOfAPlan() {
+    public function canUpdateDetailsOfAPlan()
+    {
         // Arrange
-        if (!isset($this->plans)) {
+        if (! isset($this->plans)) {
             $this->getsAListOfPlans();
         }
         $plans = $this->plans;
@@ -68,15 +71,16 @@ class PlanTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get specific Plan
+     * Can get specific Plan.
      *
      * @test
      * @return void
      */
-    public function getPlanById() {
+    public function getPlanById()
+    {
         // Arrange
         // Act
-        if (!isset($this->plans)) {
+        if (! isset($this->plans)) {
             $this->getsAListOfPlans();
         }
         $plans = $this->plans;

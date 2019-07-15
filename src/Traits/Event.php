@@ -2,14 +2,16 @@
 
 namespace harmonic\Ezypay\Traits;
 
-trait Event {
+trait Event
+{
     /**
-     * Resend event
+     * Resend event.
      *
      * @param string $eventId
-     * @return Object Event
+     * @return object Event
      */
-    public function resendEvent(string $eventId) {
-        return $this->request('POST', 'events/' . $eventId . '/resendwebhook');
+    public function resendEvent(string $eventId)
+    {
+        return $this->request('POST', 'events/'.$eventId.'/resendwebhook');
     }
 }

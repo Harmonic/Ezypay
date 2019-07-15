@@ -2,23 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
-use harmonic\Models\Ezypay as EzypayModel;
 use Illuminate\Foundation\Testing\WithFaker;
 
-
-class PaymentMethodsTest extends EzypayBaseTest {
+class PaymentMethodsTest extends EzypayBaseTest
+{
     use WithFaker;
-    
 
     /**
-     * Can get a list of customer payment methods
+     * Can get a list of customer payment methods.
      *
      * @test
      * @return void
      */
-    public function getAListOfPaymentMethods() {
+    public function getAListOfPaymentMethods()
+    {
         // Arrange
         $customerId = $this->faker->uuid;
 
@@ -32,12 +30,13 @@ class PaymentMethodsTest extends EzypayBaseTest {
     }
 
     /**
-     * Can relate a customer to a payment method
+     * Can relate a customer to a payment method.
      *
      * @test
      * @return void
      */
-    public function canCreatePaymentMethodForCustomer() {
+    public function canCreatePaymentMethodForCustomer()
+    {
         // Arrange
         $paymentMethodToken = $this->faker->uuid;
         $customer = Ezypay::createCustomer();
@@ -56,14 +55,15 @@ class PaymentMethodsTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get customer primary payment method
+     * Can get customer primary payment method.
      *
      * @test
-     * @return Object PaymentMethod
+     * @return object PaymentMethod
      */
-    public function getCustomerPrimaryPaymentMethod() {
+    public function getCustomerPrimaryPaymentMethod()
+    {
         // Arrange
-        if (!isset($this->paymentMethod)) {
+        if (! isset($this->paymentMethod)) {
             $this->canCreatePaymentMethodForCustomer();
         }
         $customerId = $this->paymentMethod['customerId'];
@@ -83,14 +83,15 @@ class PaymentMethodsTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get customer payment method by token
+     * Can get customer payment method by token.
      *
      * @test
      * @return void
      */
-    public function canGetPaymentMethodByToken() {
+    public function canGetPaymentMethodByToken()
+    {
         // Act
-        if (!isset($this->paymentMethod)) {
+        if (! isset($this->paymentMethod)) {
             $this->canCreatePaymentMethodForCustomer();
         }
         $samplePaymentMethod = $this->paymentMethod;
@@ -106,16 +107,17 @@ class PaymentMethodsTest extends EzypayBaseTest {
     }
 
     /**
-     * Can delete customer payment method
+     * Can delete customer payment method.
      * @todo can't find a record with payment method not primary
      * @test
      * @return void
      */
-    public function deletePrimaryPaymentMethod() {
+    public function deletePrimaryPaymentMethod()
+    {
         $this->expectException(\Exception::class);
 
         // Arrange
-        if (!isset($this->primaryPaymentMethod)) {
+        if (! isset($this->primaryPaymentMethod)) {
             $this->getCustomerPrimaryPaymentMethod();
         }
         $paymentMethod = $this->primaryPaymentMethod;
