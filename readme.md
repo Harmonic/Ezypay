@@ -28,7 +28,7 @@ Optionally add Ezypay alias tp app.php config file:
 ``` php
 'aliases' => [
 	...
-	'Ezypay' => Harmonic\Ezypay\Facades\Ezypay::class,
+	'Ezypay' => harmonic\Ezypay\Facades\Ezypay::class,
 ```
 
 ## Usage
@@ -55,6 +55,21 @@ Ezypay::methodName
 ```
 Where methodName is any method from https://developer.ezypay.com/reference
 eg. createCustomer()
+
+## Testing
+
+There is a testing facade available for your tests that will return fake data. In your tests:
+
+``` php
+
+use harmonic\Ezypay\Facades\Ezypay;
+
+...
+
+Ezypay::fake();
+
+```
+Then use Ezypay facade as normal.
 
 ## Change log
 
