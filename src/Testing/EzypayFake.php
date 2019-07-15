@@ -1606,7 +1606,7 @@ class EzypayFake {
       string $state = null,
       string $countryCode = null
     ) {
-        $countryCode = substr($country ?? $this->faker->country,0,2);
+        $countryCode = substr($this->faker->country, 0, 2);
         $customer = [
           'id' => $customerId,
           'number' => 'EZY73520',
@@ -1621,16 +1621,16 @@ class EzypayFake {
           'dateOfBirth' => null,
           'createdOn' => '2019-01-24T04:32:14.855',
           'address' => [
-            'address1' => $address1 ?? $this->faker->streetAddress,
-            'address2' => $address2 ?? $this->faker->buildingNumber,
-            'postalCode' => $postCode ?? $this->faker->randomNumber(4,true),
-            'state' => $state ?? $this->faker->state,
+            'address1' => $this->faker->streetAddress,
+            'address2' => $this->faker->buildingNumber,
+            'postalCode' => $this->faker->randomNumber(4,true),
+            'state' => $this->faker->state,
             'countryCode' => $countryCode,
-            'city' => $city ?? $this->faker->city,
+            'city' => $this->faker->city,
           ],
           'metadata' => [
-            'identifierType' => $identifierType ?? $this->faker->word,
-            'identifierID' => $identifierID ?? $this->faker->randomNumber(3),
+            'identifierType' => $this->faker->word,
+            'identifierID' => $this->faker->randomNumber(3),
           ]
         ];
 
@@ -1649,18 +1649,6 @@ class EzypayFake {
       int $limit = null,
       int $cursor = null
     ) {
-        $filters = [
-          'customerId' => $customerId,
-          'subscriptionId' => $subscriptionId,
-          'invoiceId' => $invoiceId,
-          'status' => $status,
-          'reason' => $reason,
-          'from' => $from,
-          'until' => $until,
-          'limit' => $limit,
-          'cursor' => $cursor
-        ];
-
         $notes = [
           'data' => [
             [
