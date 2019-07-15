@@ -47,21 +47,21 @@ class EzypayFake {
     }
 
     public function createCreditCardPaymentMethod(string $accountHolderName, string $cardNumber, int $expiryMonth, int $expiryYear, string $country = 'AU') {
-      $vault = [
-        'type' => "CARD",
+        $vault = [
+        'type' => 'CARD',
         'card' => [
           'accountHolderName' => $accountHolderName,
           'last4' => substr($cardNumber, -4),
           'expiryYear' => $this->faker->numerify('##'),
           'expiryMonth' => $this->faker->numerify('##'),
-          'type' => "VISA",
+          'type' => 'VISA',
           'first6' => $this->faker->numerify('######'),
-          'countryCode' => "AU",
+          'countryCode' => 'AU',
         ],
         'paymentMethodToken' => $this->faker->uuid
       ];
 
-      return $vault;
+        return $vault;
     }
 
     public function getSubscription(string $subscriptionId) {
@@ -157,15 +157,15 @@ class EzypayFake {
         $paymentMethod = [
           'paymentMethodToken' => $vaultPaymentMethod,
           'customerId' => $customerId,
-          'type' => "CARD",
+          'type' => 'CARD',
           'bank' => null,
           'card' => [
             'first6' => $this->faker->numerify('######'),
             'last4' => $this->faker->numerify('####'),
             'accountHolderName' => $this->faker->firstName(),
-            'type' => "VISA",
-            'expiryMonth' => "12",
-            'expiryYear' => "25"
+            'type' => 'VISA',
+            'expiryMonth' => '12',
+            'expiryYear' => '25'
           ],
           'invalidReason' => null,
           'lastUsedOn' => null,
@@ -177,7 +177,7 @@ class EzypayFake {
     }
 
     public function updateSubscription(string $subscriptionId, string $paymentMethodToken) {
-      $subscription = [
+        $subscription = [
         'id' => $subscriptionId,
         'customerId' => $this->faker->uuid,
         'planId' => $this->faker->uuid,
@@ -257,7 +257,7 @@ class EzypayFake {
         'setupPayments' => null,
       ];
 
-      return $subscription;
+        return $subscription;
     }
 
     public function replacePaymentMethod() {
@@ -265,7 +265,7 @@ class EzypayFake {
     }
 
     public function createCustomer(string $firstName = null, string $lastName = null, string $email = null, string $address1 = null, string $address2 = null, string $postCode = null, string $city = null, string $state = null, string $country = null, string $companyName = null, string $identifierType = null, int $identifierID = null) {
-        $countryCode = substr($country ?? $this->faker->country,0,2);
+        $countryCode = substr($country ?? $this->faker->country, 0, 2);
         $customerDetails = [
             'id' => '93f3dee2-5424-4c06-be14-4fa6c2caa71b',
             'number' => 'EZY73520',
@@ -282,7 +282,7 @@ class EzypayFake {
             'address' => [
               'address1' => $address1 ?? $this->faker->streetAddress,
               'address2' => $address2 ?? $this->faker->buildingNumber,
-              'postalCode' => $postCode ?? $this->faker->randomNumber(4,true),
+              'postalCode' => $postCode ?? $this->faker->randomNumber(4, true),
               'state' => $state ?? $this->faker->state,
               'countryCode' => $countryCode,
               'city' => $city ?? $this->faker->city,
@@ -382,15 +382,15 @@ class EzypayFake {
 
     public function createBankPaymentMethod(string $accountHolderName, string $accountNumber, string $bsb, string $country = 'AU') {
         $vault = [
-          'type' => "BANK",
+          'type' => 'BANK',
           'bank' => [
             'accountHolderName' => $accountHolderName,
             'last4' => substr($accountNumber, -4),
             'bankNumber' => $this->faker->numerify('######'),
             'branchNumber' => $this->faker->numerify('####'),
             'suffixNumber' => $this->faker->numerify('##'),
-            'countryCode' => "AU",
-            'bankTransferType' => "Local",
+            'countryCode' => 'AU',
+            'bankTransferType' => 'Local',
           ],
           'paymentMethodToken' => $this->faker->uuid
         ];
@@ -399,40 +399,40 @@ class EzypayFake {
     }
 
     public function getVaultPaymentMethodToken(string $token) {
-      $accountNumber = $this->faker->randomNumber(9);
-      $vault = [
-        'type' => "BANK",
+        $accountNumber = $this->faker->randomNumber(9);
+        $vault = [
+        'type' => 'BANK',
         'bank' => [
           'accountHolderName' => $this->faker->firstName(),
           'last4' => substr($accountNumber, -4),
           'bankNumber' => $this->faker->numerify('######'),
           'branchNumber' => $this->faker->numerify('####'),
           'suffixNumber' => $this->faker->numerify('##'),
-          'countryCode' => "AU",
-          'bankTransferType' => "Local",
+          'countryCode' => 'AU',
+          'bankTransferType' => 'Local',
         ],
         'paymentMethodToken' => $token
       ];
 
-      return $vault;
+        return $vault;
     }
 
     public function getTransactions(bool $fetchAll = false, string $transactionNumber = null, string $senderId = null, string $documentId = null, int $limit = null, int $cursor = null, string $from = null, string $until = null, string $status = null) {
-      $transactions = [
+        $transactions = [
         'data' => [
           [
             'id' => $this->faker->uuid,
             'number' => null,
-            'status' => $status ?? "SUCCESS",
-            'createdOn' => "2019-07-01T03:24:05.555",
+            'status' => $status ?? 'SUCCESS',
+            'createdOn' => '2019-07-01T03:24:05.555',
             'failedOn' => null,
             'amount' => [
               'currency' => 'AUD',
               'value' => 33.0,
-              "type" => "FIXED_AMOUNT"
+              'type' => 'FIXED_AMOUNT'
             ],
-            'type' => "PAYMENT",
-            'source' => "wallet",
+            'type' => 'PAYMENT',
+            'source' => 'wallet',
             'paymentMethodType' => null,
             'paymentMethodDescription' => null,
             'failedPaymentReason' => null,
@@ -443,19 +443,19 @@ class EzypayFake {
             'document' => [
               'id' => $this->faker->uuid,
               'number' => null,
-              'type' => "invoice"
+              'type' => 'invoice'
             ],
             'sender' => [
               'id' => $this->faker->uuid,
               'name' => $this->faker->word,
-              'type' => "MERCHANT",
+              'type' => 'MERCHANT',
             ],
             'receiver' => [
               'id' => null,
-              'name' => "EZYPAY",
-              'type' => "EZYPAY",
+              'name' => 'EZYPAY',
+              'type' => 'EZYPAY',
             ],
-            "channel" => "api"
+            'channel' => 'api'
           ]
         ],
         'paging' => [
@@ -466,23 +466,23 @@ class EzypayFake {
         ]
       ];
 
-      return $transactions;
+        return $transactions;
     }
 
     public function getTransaction(string $transactionId) {
         $transaction = [
           'id' => $transactionId,
           'number' => null,
-          'status' => "SUCCESS",
-          'createdOn' => "2019-07-01T03:24:05.555",
+          'status' => 'SUCCESS',
+          'createdOn' => '2019-07-01T03:24:05.555',
           'failedOn' => null,
           'amount' => [
             'currency' => 'AUD',
             'value' => 33.0,
-            "type" => "FIXED_AMOUNT"
+            'type' => 'FIXED_AMOUNT'
           ],
-          'type' => "PAYMENT",
-          'source' => "wallet",
+          'type' => 'PAYMENT',
+          'source' => 'wallet',
           'paymentMethodType' => null,
           'paymentMethodDescription' => null,
           'failedPaymentReason' => null,
@@ -493,26 +493,26 @@ class EzypayFake {
           'document' => [
             'id' => $this->faker->uuid,
             'number' => null,
-            'type' => "invoice"
+            'type' => 'invoice'
           ],
           'sender' => [
             'id' => $this->faker->uuid,
             'name' => $this->faker->word,
-            'type' => "MERCHANT",
+            'type' => 'MERCHANT',
           ],
           'receiver' => [
             'id' => null,
-            'name' => "EZYPAY",
-            'type' => "EZYPAY",
+            'name' => 'EZYPAY',
+            'type' => 'EZYPAY',
           ],
-          "channel" => "api"
+          'channel' => 'api'
         ];
 
         return $transaction;
     }
 
     public function activateSubscription(string $subscriptionId, string $startDate = null, string $paymentMethodToken = null) {
-      $subscription = [
+        $subscription = [
         'id' => $subscriptionId,
         'customerId' => $this->faker->uuid,
         'planId' => $this->faker->uuid,
@@ -592,7 +592,7 @@ class EzypayFake {
         'setupPayments' => null,
       ];
 
-      return $subscription;
+        return $subscription;
     }
 
     public function getSubscriptions() {
@@ -818,12 +818,12 @@ class EzypayFake {
           'name' => $name,
           'memo' => null,
           'accountingCode' => $accountingCode,
-          'amount' => [ 
+          'amount' => [
               'currency' => 'AUD',
               'value' => 200.00,
               'type' => null
           ],
-          'tax' => [ 
+          'tax' => [
               'rate' => 0.00
           ],
           'setupPayments' => null,
@@ -852,15 +852,15 @@ class EzypayFake {
         $plan = [
           'id' => $this->faker->uuid,
           'status' => 'ACTIVE',
-          'name' => "Share Link Bronze",
+          'name' => 'Share Link Bronze',
           'memo' => null,
           'accountingCode' => $this->faker->word,
-          'amount' => [ 
+          'amount' => [
               'currency' => 'AUD',
               'value' => $this->faker->randomNumber(3),
               'type' => null
           ],
-          'tax' => [ 
+          'tax' => [
               'rate' => 0.00
           ],
           'setupPayments' => null,
@@ -891,15 +891,15 @@ class EzypayFake {
             [
               'id' => $this->faker->uuid,
               'status' => 'ACTIVE',
-              'name' => "Share Link Bronze",
+              'name' => 'Share Link Bronze',
               'memo' => null,
               'accountingCode' => $this->faker->word,
-              'amount' => [ 
+              'amount' => [
                   'currency' => 'AUD',
                   'value' => $this->faker->randomNumber(3),
                   'type' => null
               ],
-              'tax' => [ 
+              'tax' => [
                   'rate' => 0.00
               ],
               'setupPayments' => null,
@@ -944,7 +944,7 @@ class EzypayFake {
               'value' => $taxInclusiveAmt,
               'type' => null
           ],
-          'tax' => [ 
+          'tax' => [
               'rate' => 0.00
           ],
           'setupPayments' => null,
@@ -973,15 +973,15 @@ class EzypayFake {
         $paymentMethod = [
           'paymentMethodToken' => $this->faker->uuid,
           'customerId' => $customerId,
-          'type' => "CARD",
+          'type' => 'CARD',
           'bank' => null,
           'card' => [
             'first6' => $this->faker->numerify('######'),
             'last4' => $this->faker->numerify('####'),
             'accountHolderName' => $this->faker->firstName(),
-            'type' => "VISA",
-            'expiryMonth' => "12",
-            'expiryYear' => "25"
+            'type' => 'VISA',
+            'expiryMonth' => '12',
+            'expiryYear' => '25'
           ],
           'invalidReason' => null,
           'lastUsedOn' => null,
@@ -996,15 +996,15 @@ class EzypayFake {
         $paymentMethod = [
           'paymentMethodToken' => $paymentMethodToken,
           'customerId' => $customerId,
-          'type' => "CARD",
+          'type' => 'CARD',
           'bank' => null,
           'card' => [
             'first6' => $this->faker->numerify('######'),
             'last4' => $this->faker->numerify('####'),
             'accountHolderName' => $this->faker->firstName(),
-            'type' => "VISA",
-            'expiryMonth' => "12",
-            'expiryYear' => "25"
+            'type' => 'VISA',
+            'expiryMonth' => '12',
+            'expiryYear' => '25'
           ],
           'invalidReason' => null,
           'lastUsedOn' => null,
@@ -1021,19 +1021,19 @@ class EzypayFake {
 
     public function getPaymentMethods(string $customerId, bool $fetchAll = false, int $limit = null, int $cursor = null) {
         return [
-          "data" => [
+          'data' => [
             [
               'paymentMethodToken' => $this->faker->uuid,
               'customerId' => $customerId,
-              'type' => "CARD",
+              'type' => 'CARD',
               'bank' => null,
               'card' => [
                   'first6' => $this->faker->numerify('######'),
                   'last4' => $this->faker->numerify('####'),
                   'accountHolderName' => $this->faker->firstName(),
-                  'type' => "VISA",
-                  'expiryMonth' => "01",
-                  'expiryYear' => "99"
+                  'type' => 'VISA',
+                  'expiryMonth' => '01',
+                  'expiryYear' => '99'
               ],
               'invalidReason' => null,
               'lastUsedOn' => null,
@@ -1061,9 +1061,9 @@ class EzypayFake {
           'data' => [
             [
               'id' => $this->faker->uuid,
-              'documentNumber' => "IN0000000000000628",
-              'date' => "2019-07-01",
-              'dueDate' => "2019-07-01",
+              'documentNumber' => 'IN0000000000000628',
+              'date' => '2019-07-01',
+              'dueDate' => '2019-07-01',
               'scheduledPaymentDate' => null,
               'status' => isset($status) ? $status : 'WRITTEN_OFF',
               'memo' => null,
@@ -1083,27 +1083,27 @@ class EzypayFake {
                 ]
               ],
               'amount' => [
-                'currency' => "AUD",
+                'currency' => 'AUD',
                 'value' => 200,
                 'type' => null
               ],
-              "amountWithoutDiscount" => [
-                'currency' => "AUD",
+              'amountWithoutDiscount' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ],
-              "totalDiscounted" => [
-                'currency' => "AUD",
+              'totalDiscounted' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ],
-              "totalRefunded" => [
-                'currency' => "AUD",
+              'totalRefunded' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ],
-              "totalTax" => [
-                'currency' => "AUD",
+              'totalTax' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ],
@@ -1112,10 +1112,10 @@ class EzypayFake {
               'subscriptionName' => null,
               'paymentMethodToken' => $this->faker->uuid,
               'autoPayment' => true,
-              'createdOn' => "2019-07-01T00:33:42.562"
+              'createdOn' => '2019-07-01T00:33:42.562'
             ]
           ],
-          "paging" => [
+          'paging' => [
             'nextUrl' => null,
             'nextCursor' => 0,
             'limit' => 0,
@@ -1150,35 +1150,35 @@ class EzypayFake {
     public function createInvoice(string $customerId, array $items, string $paymentMethodToken = null, string $memo = null, bool $autoPayment = true, string $scheduledPaymentDate = null) {
         $invoice = [
           'id' => $this->faker->uuid,
-          'documentNumber' => "IN0000000000000628",
-          'date' => "2019-07-01",
-          'dueDate' => "2019-07-01",
+          'documentNumber' => 'IN0000000000000628',
+          'date' => '2019-07-01',
+          'dueDate' => '2019-07-01',
           'scheduledPaymentDate' => null,
-          'status' => "PROCESSING",
+          'status' => 'PROCESSING',
           'memo' => null,
           'items' => $items,
           'amount' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => 200,
             'type' => null
           ],
-          "amountWithoutDiscount" => [
-            'currency' => "AUD",
+          'amountWithoutDiscount' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalDiscounted" => [
-            'currency' => "AUD",
+          'totalDiscounted' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalRefunded" => [
-            'currency' => "AUD",
+          'totalRefunded' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalTax" => [
-            'currency' => "AUD",
+          'totalTax' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
@@ -1187,7 +1187,7 @@ class EzypayFake {
           'subscriptionName' => null,
           'paymentMethodToken' => $paymentMethodToken,
           'autoPayment' => true,
-          'createdOn' => "2019-07-01T00:33:42.562"
+          'createdOn' => '2019-07-01T00:33:42.562'
         ];
 
         return $invoice;
@@ -1205,11 +1205,11 @@ class EzypayFake {
     public function recordExternalPayment(string $invoiceId, string $paymentMethodType = null) {
         $payment = [
           'id' => $invoiceId,
-          'documentNumber' => "IN0000000000000628",
-          'date' => "2019-07-01",
-          'dueDate' => "2019-07-01",
+          'documentNumber' => 'IN0000000000000628',
+          'date' => '2019-07-01',
+          'dueDate' => '2019-07-01',
           'scheduledPaymentDate' => null,
-          'status' => "PROCESSING",
+          'status' => 'PROCESSING',
           'memo' => null,
           'items' => [
             [
@@ -1227,27 +1227,27 @@ class EzypayFake {
             ]
           ],
           'amount' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => 200,
             'type' => null
           ],
-          "amountWithoutDiscount" => [
-            'currency' => "AUD",
+          'amountWithoutDiscount' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalDiscounted" => [
-            'currency' => "AUD",
+          'totalDiscounted' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalRefunded" => [
-            'currency' => "AUD",
+          'totalRefunded' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
-          "totalTax" => [
-            'currency' => "AUD",
+          'totalTax' => [
+            'currency' => 'AUD',
             'value' => 0,
             'type' => null
           ],
@@ -1256,7 +1256,7 @@ class EzypayFake {
           'subscriptionName' => null,
           'paymentMethodToken' => $this->faker->uuid,
           'autoPayment' => true,
-          'createdOn' => "2019-07-01T00:33:42.562"
+          'createdOn' => '2019-07-01T00:33:42.562'
         ];
 
         return $payment;
@@ -1267,9 +1267,9 @@ class EzypayFake {
           'data' => [
             [
               'subscriptionId' => $subscriptionId,
-              'date' => "2019-07-01",
-              'cycleStartDate' => "2019-07-01",
-              'cycleEndDate' => "2019-07-31",
+              'date' => '2019-07-01',
+              'cycleStartDate' => '2019-07-01',
+              'cycleEndDate' => '2019-07-31',
               'items' => [
                 [
                   'description' => 'Share Link Bronze',
@@ -1285,12 +1285,12 @@ class EzypayFake {
                 ]
               ],
               'amount' => [
-                'currency' => "AUD",
+                'currency' => 'AUD',
                 'value' => 200,
                 'type' => null
               ],
-              "totalTax" => [
-                'currency' => "AUD",
+              'totalTax' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ]
@@ -1298,9 +1298,9 @@ class EzypayFake {
           ],
           'paging' => [
             'nextUrl' => null,
-            "nextCursor" => 0,
-            "limit" => 0,
-            "totalCount" => 2
+            'nextCursor' => 0,
+            'limit' => 0,
+            'totalCount' => 2
           ]
         ];
 
@@ -1308,24 +1308,24 @@ class EzypayFake {
     }
 
     public function getSharedFutureInvoice() {
-      $subscription = $this->getSubscription($this->faker->uuid);
-      $startDate = Carbon::now()->addDays(30)->toDateString();
-      $endDate = Carbon::now()->addDays(60)->toDateString();
-      $futureInvoices = $this->getFutureInvoice(
-          $subscription['id'],
-          $subscription['customerId'],
-          $startDate,
-          $endDate,
-          true
+        $subscription = $this->getSubscription($this->faker->uuid);
+        $startDate = Carbon::now()->addDays(30)->toDateString();
+        $endDate = Carbon::now()->addDays(60)->toDateString();
+        $futureInvoices = $this->getFutureInvoice(
+            $subscription['id'],
+            $subscription['customerId'],
+            $startDate,
+            $endDate,
+            true
       );
 
-      return $futureInvoices;
+        return $futureInvoices;
     }
 
     public function deleteFutureInvoice() {
         return [
-          "entityId" => $this->faker->uuid,
-          "delete" => "true"
+          'entityId' => $this->faker->uuid,
+          'delete' => 'true'
         ];
     }
 
@@ -1334,9 +1334,9 @@ class EzypayFake {
           'data' => [
             [
               'subscriptionId' => $subscriptionId,
-              'date' => "2019-07-01",
+              'date' => '2019-07-01',
               'cycleStartDate' => $cycleStartDate,
-              'cycleEndDate' => "2019-07-31",
+              'cycleEndDate' => '2019-07-31',
               'items' => [
                 [
                   'description' => 'Share Link Bronze',
@@ -1352,12 +1352,12 @@ class EzypayFake {
                 ]
               ],
               'amount' => [
-                'currency' => "AUD",
+                'currency' => 'AUD',
                 'value' => 200,
                 'type' => null
               ],
-              "totalTax" => [
-                'currency' => "AUD",
+              'totalTax' => [
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ]
@@ -1365,9 +1365,9 @@ class EzypayFake {
           ],
           'paging' => [
             'nextUrl' => null,
-            "nextCursor" => 0,
-            "limit" => 0,
-            "totalCount" => 2
+            'nextCursor' => 0,
+            'limit' => 0,
+            'totalCount' => 2
           ]
         ];
     }
@@ -1376,16 +1376,16 @@ class EzypayFake {
         $futureInvoice = [
           'id' => $this->faker->uuid,
           'documentNumber' => $this->faker->word,
-          'date' => "2019-07-12",
-          'dueDate' => "2019-09-01",
+          'date' => '2019-07-12',
+          'dueDate' => '2019-09-01',
           'scheduledPaymentDate' => null,
-          'status' => "PAID",
-          'memo' => "",
+          'status' => 'PAID',
+          'memo' => '',
           'items' => [
             [
-              'description' => "Share Link Bronze",
+              'description' => 'Share Link Bronze',
               'amount' => [
-                'currency' => "AUD",
+                'currency' => 'AUD',
                 'value' => 50,
                 'type' => null
               ],
@@ -1393,46 +1393,46 @@ class EzypayFake {
                 'rate' => 10
               ],
               'id' => $this->faker->uuid,
-              'type' => "subscription_payment",
+              'type' => 'subscription_payment',
               'discounted' => [
-                'currency' => "AUD",
+                'currency' => 'AUD',
                 'value' => 0,
                 'type' => null
               ],
-              'accountingCode' => "SLB"
+              'accountingCode' => 'SLB'
             ]
           ],
           'amount' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
           'amountWithoutDiscount' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
           'totalDiscounted' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
           'totalRefunded' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
           'totalTax' => [
-            'currency' => "AUD",
+            'currency' => 'AUD',
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
-          "customerId" => "afed8838-a6ea-4ae0-b7dd-a092b8d7a13b",
-          "subscriptionId" => $subscriptionId,
-          "subscriptionName" => "Share Link Bronze",
-          "paymentMethodToken" => $paymentMethodType,
-          "autoPayment" => false,
-          "createdOn" => "2019-07-12T10:49:14.122"
+          'customerId' => 'afed8838-a6ea-4ae0-b7dd-a092b8d7a13b',
+          'subscriptionId' => $subscriptionId,
+          'subscriptionName' => 'Share Link Bronze',
+          'paymentMethodToken' => $paymentMethodType,
+          'autoPayment' => false,
+          'createdOn' => '2019-07-12T10:49:14.122'
         ];
 
         return $futureInvoice;
@@ -1442,14 +1442,14 @@ class EzypayFake {
         $invoices = [
           'id' => $invoiceId,
           'documentNumber' => $this->faker->word,
-          'date' => "2019-07-12",
-          'dueDate' => "2019-09-01",
+          'date' => '2019-07-12',
+          'dueDate' => '2019-09-01',
           'scheduledPaymentDate' => null,
-          'status' => "PAID",
-          'memo' => "",
+          'status' => 'PAID',
+          'memo' => '',
           'items' => [
             [
-              'description' => "Share Link Bronze",
+              'description' => 'Share Link Bronze',
               'amount' => [
                 'currency' => $amountCurrency,
                 'value' => 50,
@@ -1459,13 +1459,13 @@ class EzypayFake {
                 'rate' => 10
               ],
               'id' => $this->faker->uuid,
-              'type' => "subscription_payment",
+              'type' => 'subscription_payment',
               'discounted' => [
                 'currency' => $amountCurrency,
                 'value' => 0,
                 'type' => null
               ],
-              'accountingCode' => "SLB"
+              'accountingCode' => 'SLB'
             ]
           ],
           'amount' => [
@@ -1493,32 +1493,32 @@ class EzypayFake {
             'value' => $this->faker->randomNumber(2),
             'type' => null
           ],
-          "customerId" => $this->faker->uuid,
-          "subscriptionId" => $this->faker->uuid,
-          "subscriptionName" => "Share Link Bronze",
-          "paymentMethodToken" => $this->faker->uuid,
-          "autoPayment" => false,
-          "createdOn" => "2019-07-12T10:49:14.122"
+          'customerId' => $this->faker->uuid,
+          'subscriptionId' => $this->faker->uuid,
+          'subscriptionName' => 'Share Link Bronze',
+          'paymentMethodToken' => $this->faker->uuid,
+          'autoPayment' => false,
+          'createdOn' => '2019-07-12T10:49:14.122'
         ];
 
         return $invoices;
     }
 
     public function getCustomers(
-      bool $fetchAll = false,
-      string $name = null,
-      string $firstName = null,
-      string $lastName = null,
-      string $companyName = null,
-      string $referenceCode = null,
-      string $customerNumber = null,
-      string $createdDate = null,
-      string $sortExpression = null,
-      int $limit = null,
-      int $cursor = null
+        bool $fetchAll = false,
+        string $name = null,
+        string $firstName = null,
+        string $lastName = null,
+        string $companyName = null,
+        string $referenceCode = null,
+        string $customerNumber = null,
+        string $createdDate = null,
+        string $sortExpression = null,
+        int $limit = null,
+        int $cursor = null
     ) {
         $customers = [
-          "data" => [
+          'data' => [
             [
               'id' => $this->faker->uuid,
               'number' => 'EZY73520',
@@ -1535,7 +1535,7 @@ class EzypayFake {
               'address' => [
                 'address1' => $this->faker->streetAddress,
                 'address2' => $this->faker->buildingNumber,
-                'postalCode' => $this->faker->randomNumber(4,true),
+                'postalCode' => $this->faker->randomNumber(4, true),
                 'state' => $this->faker->state,
                 'countryCode' => $this->faker->countryCode,
                 'city' => $this->faker->city,
@@ -1547,10 +1547,10 @@ class EzypayFake {
             ]
           ],
           'paging' => [
-            "nextUrl" => null,
-            "nextCursor" => 0,
-            "limit" => 0,
-            "totalCount" => 1
+            'nextUrl' => null,
+            'nextCursor' => 0,
+            'limit' => 0,
+            'totalCount' => 1
           ]
         ];
 
@@ -1574,7 +1574,7 @@ class EzypayFake {
           'address' => [
             'address1' => $this->faker->streetAddress,
             'address2' => $this->faker->buildingNumber,
-            'postalCode' => $this->faker->randomNumber(4,true),
+            'postalCode' => $this->faker->randomNumber(4, true),
             'state' => $this->faker->state,
             'countryCode' => $this->faker->countryCode,
             'city' => $this->faker->city,
@@ -1589,24 +1589,23 @@ class EzypayFake {
     }
 
     public function updateCustomer(
-      string $customerId,
-      string $email,
-      string $firstName,
-      string $lastName,
-      string $address1,
-      string $companyName = null,
-      string $gender = null,
-      string $homePhone = null,
-      string $mobilePhone = null,
-      string $referenceCode = null,
-      string $dateOfBirth = null,
-      string $address2 = null,
-      string $postCode = null,
-      string $city = null,
-      string $state = null,
-      string $countryCode = null
+        string $customerId,
+        string $email,
+        string $firstName,
+        string $lastName,
+        string $address1,
+        string $companyName = null,
+        string $gender = null,
+        string $homePhone = null,
+        string $mobilePhone = null,
+        string $referenceCode = null,
+        string $dateOfBirth = null,
+        string $address2 = null,
+        string $postCode = null,
+        string $city = null,
+        string $state = null,
+        string $countryCode = null
     ) {
-        $countryCode = substr($this->faker->country, 0, 2);
         $customer = [
           'id' => $customerId,
           'number' => 'EZY73520',
@@ -1623,9 +1622,9 @@ class EzypayFake {
           'address' => [
             'address1' => $this->faker->streetAddress,
             'address2' => $this->faker->buildingNumber,
-            'postalCode' => $this->faker->randomNumber(4,true),
+            'postalCode' => $this->faker->randomNumber(4, true),
             'state' => $this->faker->state,
-            'countryCode' => $countryCode,
+            'countryCode' => $this->faker->countryCode,
             'city' => $this->faker->city,
           ],
           'metadata' => [
@@ -1638,38 +1637,38 @@ class EzypayFake {
     }
 
     public function getCreditNotes(
-      string $customerId,
-      string $subscriptionId = null,
-      string $invoiceId = null,
-      bool $fetchAll = false,
-      string $status = null,
-      string $reason = null,
-      string $from = null,
-      string $until = null,
-      int $limit = null,
-      int $cursor = null
+        string $customerId,
+        string $subscriptionId = null,
+        string $invoiceId = null,
+        bool $fetchAll = false,
+        string $status = null,
+        string $reason = null,
+        string $from = null,
+        string $until = null,
+        int $limit = null,
+        int $cursor = null
     ) {
         $notes = [
           'data' => [
             [
               'id' => $this->faker->uuid,
-              "invoiceId" => $this->faker->uuid,
-              "documentNumber" => "CN0000000000000001",
-              "date" => "2019-04-01",
-              "status" => "PAID",
-              "items" => [],
-              "amount" => [],
+              'invoiceId' => $this->faker->uuid,
+              'documentNumber' => 'CN0000000000000001',
+              'date' => '2019-04-01',
+              'status' => 'PAID',
+              'items' => [],
+              'amount' => [],
               'totalTax' => [],
-              'reason' => "REFUND",
+              'reason' => 'REFUND',
               'customer_id' => $customerId,
               'paymentMethodToken' => $this->faker->uuid
             ]
           ],
           'paging' => [
-            "nextUrl" => null,
-            "nextCursor" => 0,
-            "limit" => 0,
-            "totalCount" => 0
+            'nextUrl' => null,
+            'nextCursor' => 0,
+            'limit' => 0,
+            'totalCount' => 0
           ]
         ];
 
@@ -1678,17 +1677,17 @@ class EzypayFake {
 
     public function getCreditNote(string $creditNoteId) {
         $note = [
-          "id" => $creditNoteId,
-          "invoiceId" => $this->faker->uuid,
-          "documentNumber" => "CN0000000000000001",
-          "date" => "2019-04-01",
-          "status" => "PAID",
-          "items" => [],
-          "amount" => [],
-          "totalTax" => [],
-          "reason" => "REFUND",
-          "customerId" => $this->faker->uuid,
-          "paymentMethodToken" => $this->faker->uuid
+          'id' => $creditNoteId,
+          'invoiceId' => $this->faker->uuid,
+          'documentNumber' => 'CN0000000000000001',
+          'date' => '2019-04-01',
+          'status' => 'PAID',
+          'items' => [],
+          'amount' => [],
+          'totalTax' => [],
+          'reason' => 'REFUND',
+          'customerId' => $this->faker->uuid,
+          'paymentMethodToken' => $this->faker->uuid
         ];
 
         return $note;
@@ -1706,90 +1705,88 @@ class EzypayFake {
     }
 
     private function getAccessToken() {
-        $tokenData = $this->requestToken();
-
-        return $tokenData['access_token'];
+        return $this->faker->uuid;
     }
 
     public function getWebhooks(int $limit = null, int $cursor = null) {
-      return [
-        "resultCount" => 1,
-        "totalCount" => 1,
-        "data" => [
+        return [
+        'resultCount' => 1,
+        'totalCount' => 1,
+        'data' => [
           [
-            "url" => "http://api.sample.test",
-            "eventTypes" => [
-              "customer_create",
+            'url' => 'http://api.sample.test',
+            'eventTypes' => [
+              'customer_create',
             ],
-            "id" => $this->faker->uuid,
-            "createdOn" => "2019-07-12T08:59:21.036",
+            'id' => $this->faker->uuid,
+            'createdOn' => '2019-07-12T08:59:21.036',
           ],
           [
-            "url" => "http://api.sample2.test",
-            "eventTypes" => [
-              "customer_create",
+            'url' => 'http://api.sample2.test',
+            'eventTypes' => [
+              'customer_create',
             ],
-            "id" => $this->faker->uuid,
-            "createdOn" => "2019-07-12T08:59:21.036",
+            'id' => $this->faker->uuid,
+            'createdOn' => '2019-07-12T08:59:21.036',
           ]
         ],
       ];
     }
 
     public function createWebhook(string $url, array $eventTypes) {
-      return [
-        "id" => "31027aca-9b31-4462-a34e-42f70eceb243",
-        "createdOn" => "2019-07-12T08:59:21.036",
-        "url" => $url,
-        "eventTypes" => $eventTypes
+        return [
+        'id' => '31027aca-9b31-4462-a34e-42f70eceb243',
+        'createdOn' => '2019-07-12T08:59:21.036',
+        'url' => $url,
+        'eventTypes' => $eventTypes
       ];
     }
 
     public function getWebhookNotificationLogs() {
-      return [
-        "resultCount" => 0,
-        "totalCount" => 0,
-        "data" => []
+        return [
+        'resultCount' => 0,
+        'totalCount' => 0,
+        'data' => []
       ];
     }
 
     public function simulateWebHook(string $eventType) {
-      return [
-        "event" => $eventType,
-        "callbackUrls" => [
-          "http://api.sample.test",
+        return [
+        'event' => $eventType,
+        'callbackUrls' => [
+          'http://api.sample.test',
         ]
       ];
     }
 
     public function getWebhookDetails(string $webhookId) {
-      return [
-        "id" => $webhookId,
-        "createdOn" => "2019-07-12T08:59:21.036",
-        "url" => "http://api.sample.test",
-        "eventTypes" => [
-          "customer_create",
+        return [
+        'id' => $webhookId,
+        'createdOn' => '2019-07-12T08:59:21.036',
+        'url' => 'http://api.sample.test',
+        'eventTypes' => [
+          'customer_create',
         ],
       ];
     }
 
     public function updateWebhook(string $webhookId, string $url = null, array $eventTypes = [], string $bodyWebhookId = null, bool $updateSecurity = true) {
-      return [
-        "id" => $webhookId,
-        "createdOn" => "2019-07-12T09:11:24.047",
-        "url" => "http://api.sample.test",
-        "eventTypes" => $eventTypes,
-      ];   
+        return [
+        'id' => $webhookId,
+        'createdOn' => '2019-07-12T09:11:24.047',
+        'url' => 'http://api.sample.test',
+        'eventTypes' => $eventTypes,
+      ];
     }
 
     public function deleteWebhook(string $webhookId) {
-      return [
-        "entityId" => $webhookId,
-        "deleted" => true,
-      ];   
+        return [
+        'entityId' => $webhookId,
+        'deleted' => true,
+      ];
     }
 
     public function resendEvent(string $eventId) {
-      return [];
+        return [];
     }
 }
