@@ -9,16 +9,26 @@ A Laravel/PHP SDK for the Ezypay v2 API. Take a look at [contributing.md](contri
 
 ## Installation
 
-Via Composer
+###Via Composer
 
 ``` bash
 $ composer require harmonic/ezypay
 ```
 
-Publish config file
+###Publish config file
 
 ``` bash
 php artisan vendor:publish --provider="harmonic\Ezypay"
+```
+
+###Alias
+
+Optionally add Ezypay alias tp app.php config file:
+
+``` php
+'aliases' => [
+	...
+	'Ezypay' => Harmonic\Ezypay\Facades\Ezypay::class,
 ```
 
 ## Usage
@@ -36,7 +46,7 @@ EZY_PAY_CLIENT_SECRET=YOUR_SECRET
 EZY_PAY_MERCHANT_ID=YOUR_MERCHANT_ID
 ```
 
-All Ezypay API mthods are availble via the Ezypay facade.
+All Ezypay API methods are availble via the Ezypay facade.
 
 Simply call
 
