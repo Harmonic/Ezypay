@@ -13,18 +13,12 @@ class EventTest extends EzypayBaseTest {
      * @return void
      */
     public function getAListOfEvents() {
-        $isLocalEnv = $this->appEnv == self::APP_ENV_LOCAL;
-        if (!$isLocalEnv) {
-            // Arrange
-            // Act
+        // Arrange
+        // Act
+        $events = Ezypay::getEvents();
 
-            $events = Ezypay::getEvents();
-
-            // Assert
-            $this->assertNotNull($events);
-        } else {
-            $this->assertTrue($isLocalEnv);
-        }
+        // Assert
+        $this->assertNotNull($events);
     }
 
     /**
@@ -34,18 +28,13 @@ class EventTest extends EzypayBaseTest {
      * @return void
      */
     public function canResendEvent() {
-        $isLocalEnv = $this->appEnv == self::APP_ENV_LOCAL;
-        if (!$isLocalEnv) {
-            // Arrange
-            $events = Ezypay::getEvents(null, null, 1);
-            var_dump($events);
-            // Act
-            $events = Ezypay::resendEvent(($events['data'][0])['id']);
+        // Arrange
+        $events = Ezypay::getEvents(null, null, 1);
 
-            // Assert
-            $this->assertNotNull($events);
-        } else {
-            $this->assertTrue($isLocalEnv);
-        }
+        // Act
+        $events = Ezypay::resendEvent(($events['data'][0])['id']);
+
+        // Assert
+        $this->assertNotNull($events);
     }
 }
