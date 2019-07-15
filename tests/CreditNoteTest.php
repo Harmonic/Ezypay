@@ -17,13 +17,14 @@ class CreditNoteTest extends EzypayBaseTest {
      */
     public function getAListOfCreditNotes() {
         // Arrange
-        // Act
+        $customerId = $this->faker->uuid;
 
-        $creditNotes = Ezypay::getCreditNotes($this->ezypayCustomerID);
+        // Act
+        $creditNotes = Ezypay::getCreditNotes($customerId);
 
         // Assert
         $this->assertInternalType('array', $creditNotes);
-        $this->assertEquals($this->ezypayCustomerID, $creditNotes[0]['customer_id']);
+        $this->assertEquals($customerId, $creditNotes['data'][0]['customer_id']);
 
         return $creditNotes;
     }
@@ -36,8 +37,9 @@ class CreditNoteTest extends EzypayBaseTest {
      */
     public function canRetriveANoteById() {
         // Arrange
+        $customerId = $this->faker->uuid;
         $creditNotes = Ezypay::getCreditNotes(
-            $this->ezypayCustomerID,
+            $customerId,
             null,
             null,
             false,
@@ -49,9 +51,10 @@ class CreditNoteTest extends EzypayBaseTest {
         );
 
         // Act
-        $creditNote = Ezypay::getCreditNote($creditNotes[0]['id']);
+        $creditNoteResult = $creditNotes['data'][0];
+        $creditNote = Ezypay::getCreditNote($creditNoteResult['id']);
 
         $this->assertNotNull($creditNote['id']);
-        $this->assertEquals($creditNotes[0]['id'], $creditNote['id']);
+        $this->assertEquals($creditNoteResult['id'], $creditNote['id']);
     }
 }

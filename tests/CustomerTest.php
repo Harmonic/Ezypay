@@ -38,16 +38,12 @@ class CustomerTest extends EzypayBaseTest {
     public function getAListOfCustomers() {
         // Arrange
         // Act
-
         $customers = Ezypay::getCustomers(true, 'testName');
 
         // Assert
-        $this->assertEquals(true, $customers['fetchAll']);
-
-        $this->assertTrue(array_key_exists('id', $customers[0]));
-        $this->assertTrue(array_key_exists('email', $customers[0]));
-        $this->assertTrue(array_key_exists('address', $customers[0]));
-        $this->assertTrue(array_key_exists('address1', $customers[0]['address']));
+        $this->assertTrue(array_key_exists('data', $customers));
+        $this->assertTrue(array_key_exists('email', $customers['data'][0]));
+        $this->assertTrue(array_key_exists('address', $customers['data'][0]));
     }
 
     /**
@@ -61,10 +57,10 @@ class CustomerTest extends EzypayBaseTest {
         // Act
         $customers = Ezypay::getCustomers();
 
-        $customer = Ezypay::getCustomer($customers[0]['id']);
+        $customer = Ezypay::getCustomer($customers['data'][0]['id']);
 
         // Assert
-        $this->assertEquals($customers[0]['id'], $customer['id']);
+        $this->assertEquals($customers['data'][0]['id'], $customer['id']);
 
         $this->assertTrue(array_key_exists('id', $customer));
         $this->assertTrue(array_key_exists('email', $customer));
@@ -86,7 +82,7 @@ class CustomerTest extends EzypayBaseTest {
         // Act
 
         $customers = Ezypay::getCustomers();
-        $customerToUpdate = $customers[0];
+        $customerToUpdate = $customers['data'][0];
 
         $updatedCustomer = Ezypay::updateCustomer(
             $customerToUpdate['id'],

@@ -10,7 +10,6 @@ use Illuminate\Support\Carbon;
 class FutureInvoiceTest extends EzypayBaseTest
 {
     
-
     /**
      * Can record external payment future invoice
      *
@@ -20,10 +19,8 @@ class FutureInvoiceTest extends EzypayBaseTest
     public function canRecordExternalPayment()
     {
         // Arrange
-        $customer = $this->createTestCustomer();
-
-        $subscription = &$this->getSharedSubscription();
-        $subscription = $this->createSubscription($customer);
+        $customer = Ezypay::createCustomer();
+        $subscription = Ezypay::createSubscription($customer['id']);
 
         // Act
         $futureInvoices = Ezypay::createFutureInvoice($subscription['id'], $subscription['startDate'], 'cash');
@@ -31,7 +28,6 @@ class FutureInvoiceTest extends EzypayBaseTest
         // Assert
         $this->assertNotNull($futureInvoices);
         $this->assertEquals($subscription['id'], $futureInvoices['subscriptionId']);
-        $this->assertEquals('cash', $futureInvoices['paymentMethodType']);
         $this->assertEquals('PAID', $futureInvoices['status']);
     }
 
@@ -44,12 +40,11 @@ class FutureInvoiceTest extends EzypayBaseTest
     public function canGetListOfFutureInvoice()
     {
         // Arrange
-        $subscription = &$this->getSharedSubscription();
+        $subscription = Ezypay::getSubscription($this->faker->uuid);
         $startDate = Carbon::now()->addDays(30)->toDateString();
         $endDate = Carbon::now()->addDays(60)->toDateString();
 
         // Act
-
         $futureInvoices = Ezypay::getFutureInvoice(
             $subscription['id'],
             $subscription['customerId'],
@@ -60,7 +55,7 @@ class FutureInvoiceTest extends EzypayBaseTest
 
         // Assert
         $this->assertNotNull($futureInvoices);
-        $this->assertEquals($subscription['id'], $futureInvoices[0]['subscriptionId']);
+        $this->assertEquals($subscription['id'], $futureInvoices['data'][0]['subscriptionId']);
 
         $this->futureInvoices = $futureInvoices;
     }
@@ -74,18 +69,16 @@ class FutureInvoiceTest extends EzypayBaseTest
     public function canUpdateFutureInvoice()
     {
         // Arrange
-        if (!isset($this->futureInvoices)) {
-            $this->canGetListOfFutureInvoice();
-        }
-        $futureInvoiceList = $this->futureInvoices;
+        $futureInvoices = Ezypay::getSharedFutureInvoice();
 
         // Act
-
-        $futureInvoice = Ezypay::updateFutureInvoice($futureInvoiceList[0]['subscriptionId'], $futureInvoiceList[0]['cycleStartDate'], $futureInvoiceList[0]['cycleStartDate']);
+        $invoice = $futureInvoices['data'][0];
+        $futureInvoice = Ezypay::updateFutureInvoice($invoice['subscriptionId'], $invoice['cycleStartDate'], $invoice['cycleStartDate']);
 
         // Assert
         $this->assertNotNull($futureInvoice);
-        $this->assertEquals($futureInvoiceList[0]['subscriptionId'], $futureInvoice['subscriptionId']);
+        $this->assertEquals($invoice['subscriptionId'], $futureInvoice['data'][0]['subscriptionId']);
+        $this->assertEquals($invoice['cycleStartDate'], $futureInvoice['data'][0]['cycleStartDate']);
     }
 
     /**
@@ -97,16 +90,13 @@ class FutureInvoiceTest extends EzypayBaseTest
     public function canDeteleInvoice()
     {
         // Arrange
-        if (!isset($this->futureInvoices)) {
-            $this->canGetListOfFutureInvoice();
-        }
-        $futureInvoiceList = $this->futureInvoices;
+        $futureInvoices = Ezypay::getSharedFutureInvoice();
 
         // Act
-
-        $futureInvoice = Ezypay::deleteFutureInvoice($futureInvoiceList[0]['subscriptionId'], $futureInvoiceList[0]['cycleStartDate']);
+        $invoice = $futureInvoices['data'][0];
+        $futureInvoice = Ezypay::deleteFutureInvoice($invoice['subscriptionId'], $invoice['cycleStartDate']);
 
         // Assert
-        $this->assertTrue($futureInvoice['deleted']);
+        $this->assertEquals($futureInvoice['delete'], "true");
     }
 }

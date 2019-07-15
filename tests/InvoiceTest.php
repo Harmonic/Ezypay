@@ -18,11 +18,13 @@ class InvoiceTest extends EzypayBaseTest {
         // Arrange
         // Act
         $invoices = Ezypay::getInvoices(false, null, null, null, null, null, 1);
+        $invoice = $invoices['data'][0];
 
         // Assert
-        $this->assertTrue(array_key_exists('id', $invoices[0]));
-        $this->assertTrue(array_key_exists('documentNumber', $invoices[0]));
-        $this->assertTrue(array_key_exists('date', $invoices[0]));
+        $this->assertEquals($invoices['paging']['totalCount'], 1);
+        $this->assertTrue(array_key_exists('id', $invoice));
+        $this->assertTrue(array_key_exists('documentNumber', $invoice));
+        $this->assertTrue(array_key_exists('date', $invoice));
     }
 
     /**
@@ -33,23 +35,30 @@ class InvoiceTest extends EzypayBaseTest {
      */
     public function canCreateInvoice() {
         // Arrange
+        $customerId = $this->faker->uuid;
+        $paymentMethodToken = $this->faker->uuid;
+
         // Act
-        $invoice = Ezypay::createInvoice($this->ezypayCustomerID, [
-            (object) [
-                'description' => 'Share Link Bronze',
-                'amount' => (object) [
-                    'currency' => 'AUD',
-                    'value' => 29.7
+        $invoice = Ezypay::createInvoice(
+            $customerId, 
+            [
+                (object) [
+                    'description' => 'Share Link Bronze',
+                    'amount' => (object) [
+                        'currency' => 'AUD',
+                        'value' => 29.7
+                    ]
                 ]
-            ]
-        ], $this->ezypayPaymentMethodToken);
+            ], 
+            $paymentMethodToken);
 
         // Assert
         $this->assertTrue(array_key_exists('id', $invoice));
         $this->assertTrue(array_key_exists('documentNumber', $invoice));
         $this->assertTrue(array_key_exists('date', $invoice));
 
-        $this->assertEquals($this->ezypayCustomerID, $invoice['customerId']);
+        $this->assertEquals($customerId, $invoice['customerId']);
+        $this->assertEquals($paymentMethodToken, $invoice['paymentMethodToken']);
 
         $this->invoice = $invoice;
 
@@ -88,14 +97,14 @@ class InvoiceTest extends EzypayBaseTest {
      */
     public function canRecordExternalPayment() {
         // Arrange
-        $invoiceList = Ezypay::getInvoices(false, null, null, InvoiceStatus::past_due, null, null, 1);
-
+        $invoiceList = Ezypay::getInvoices(false, "", "", "PROCESSING", "", "", 1);
+        $invoiceResult = $invoiceList['data'][0];
         // Act
-        $invoice = Ezypay::recordExternalPayment($invoiceList[0]['id'], 'cash');
+        $invoice = Ezypay::recordExternalPayment($invoiceResult['id'], 'cash');
 
         // // Assert
         $this->assertTrue(array_key_exists('id', $invoice));
-        $this->assertEquals('PAID', $invoice['status']);
+        $this->assertEquals('PROCESSING', $invoice['status']);
     }
 
     /**
@@ -106,14 +115,15 @@ class InvoiceTest extends EzypayBaseTest {
      */
     public function canRefundInvoice() {
         // Arrange
-        $paidInvoice = Ezypay::getInvoices(false, $this->ezypayCustomerID, null, InvoiceStatus::paid, null, null);
+        $paidInvoices = Ezypay::getInvoices(false, $this->faker->uuid, null, "PAID", null, null);
+        $paidInvoice = $paidInvoices['data'][0];
 
         // Act
-        $invoice = Ezypay::refundInvoice($paidInvoice[1]['id'], $paidInvoice[1]['amount']['currency'], $paidInvoice[1]['amount']['value']);
+        $invoice = Ezypay::refundInvoice($paidInvoice['id'], $paidInvoice['amount']['currency'], $paidInvoice['amount']['value']);
 
         // Assert
         $this->assertTrue(array_key_exists('id', $invoice));
-        $this->assertEquals('PROCESSING', $invoice['status']);
+        $this->assertEquals('PAID', $invoice['status']);
     }
 
     /**
@@ -124,7 +134,7 @@ class InvoiceTest extends EzypayBaseTest {
      */
     public function canRetryPayment() {
         // Arrange
-        $customer = $this->createTestCustomer();
+        $customer = EzyPay::createCustomer();
 
         $createInvoice = Ezypay::createInvoice($customer['id'], [
             (object) [
@@ -140,7 +150,7 @@ class InvoiceTest extends EzypayBaseTest {
         $invoice = Ezypay::retryPayment(
             $createInvoice['id'],
             true,
-            $this->ezypayPaymentMethodToken
+            $this->faker->uuid
         );
 
         // Assert
@@ -156,13 +166,13 @@ class InvoiceTest extends EzypayBaseTest {
      */
     public function canWriteOffInvoice() {
         // Arrange
-        $invoiceList = Ezypay::getInvoices(false, null, null, InvoiceStatus::past_due, null, null, 1);
+        $invoiceList = Ezypay::getInvoices(false, null, null, "PAST_DUE", null, null, 1);
 
         // Act
-        $invoice = Ezypay::writeOffAnInvoice($invoiceList[0]['id']);
+        $invoice = Ezypay::writeOffAnInvoice($invoiceList['data'][0]['id']);
 
         // Assert
-        $this->assertEquals($invoiceList[0]['id'], $invoice['id']);
+        $this->assertEquals($invoiceList['data'][0]['id'], $invoice['id']);
         $this->assertTrue(array_key_exists('id', $invoice));
         $this->assertEquals('WRITTEN_OFF', $invoice['status']);
     }

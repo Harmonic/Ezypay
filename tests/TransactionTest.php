@@ -20,8 +20,9 @@ class TransactionTest extends EzypayBaseTest {
         $transactions = Ezypay::getTransactions();
 
         // Assert
-        $this->assertTrue(array_key_exists('id', $transactions[0]));
-        $this->assertTrue(array_key_exists('createdOn', $transactions[0]));
+        $this->assertTrue(array_key_exists('data', $transactions));
+        $this->assertTrue(array_key_exists('id', $transactions['data'][0]));
+        $this->assertTrue(array_key_exists('createdOn', $transactions['data'][0]));
     }
 
     /**
@@ -34,11 +35,11 @@ class TransactionTest extends EzypayBaseTest {
         // Arrange
         // Act
 
-        $transactions = Ezypay::getTransactions(false, null, null, null, 100, null, null, null, 'processing');
+        $transactions = Ezypay::getTransactions(false, null, null, null, 100, null, null, null, 'PROCESSING');
 
         // Assert
-        $this->assertTrue(array_key_exists('id', $transactions[0]));
-        $this->assertEquals('PROCESSING', $transactions[0]['status']);
+        $this->assertTrue(array_key_exists('id', $transactions['data'][0]));
+        $this->assertEquals('PROCESSING', $transactions['data'][0]['status']);
     }
 
     /**
@@ -53,11 +54,11 @@ class TransactionTest extends EzypayBaseTest {
         // Act
         $transactions = Ezypay::getTransactions();
 
-        $transaction = Ezypay::getTransaction($transactions[0]['id']);
+        $transaction = Ezypay::getTransaction($transactions['data'][0]['id']);
 
         // Assert
         $this->assertTrue(array_key_exists('id', $transaction));
         $this->assertTrue(array_key_exists('createdOn', $transaction));
-        $this->assertEquals($transactions[0]['id'], $transaction['id']);
+        $this->assertEquals($transactions['data'][0]['id'], $transaction['id']);
     }
 }

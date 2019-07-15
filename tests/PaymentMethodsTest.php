@@ -20,12 +20,15 @@ class PaymentMethodsTest extends EzypayBaseTest {
      */
     public function getAListOfPaymentMethods() {
         // Arrange
+        $customerId = $this->faker->uuid;
+
         // Act
-        $paymentMethods = Ezypay::getPaymentMethods($this->ezypayCustomerID, false);
+        $paymentMethods = Ezypay::getPaymentMethods($customerId, false);
 
         // Assert
         $this->assertInternalType('array', $paymentMethods);
-        $this->assertEquals($this->ezypayCustomerID, $paymentMethods['customerId']);
+        $this->assertEquals($customerId, $paymentMethods['data'][0]['customerId']);
+        $this->assertEquals($paymentMethods['paging']['totalCount'], 1);
     }
 
     /**
@@ -36,14 +39,15 @@ class PaymentMethodsTest extends EzypayBaseTest {
      */
     public function canCreatePaymentMethodForCustomer() {
         // Arrange
-        $paymentMethodToken = $this->ezypayPaymentMethodToken;
-        $customer = $this->createTestCustomer();
+        $paymentMethodToken = $this->faker->uuid;
+        $customer = Ezypay::createCustomer();
         // Act
 
         $paymentMethod = Ezypay::createPaymentMethod($customer['id'], $paymentMethodToken);
 
         // Assert
         $this->assertEquals($paymentMethodToken, $paymentMethod['paymentMethodToken']);
+        $this->assertEquals($customer['id'], $paymentMethod['customerId']);
         $this->assertEquals($paymentMethod['primary'], true);
 
         $this->paymentMethod = $paymentMethod;
@@ -117,37 +121,5 @@ class PaymentMethodsTest extends EzypayBaseTest {
         $paymentMethod = $this->primaryPaymentMethod;
 
         Ezypay::deletePaymentMethodByCustomerId($paymentMethod['customerId'], $paymentMethod['paymentMethodToken']);
-    }
-
-    /**
-     * Getting ezypay payment details via API
-     *
-     * @test
-     * @return void
-     */
-    public function getPaymentDetailsViaAPI() {
-        // Arrange
-        // Check payemnt details for customer $this->$ezypayCustomerID
-        $this->createAPICredentials(false, false);
-        $this->createClientSubscription($this->client);
-
-        $ezypay = EzypayModel::create([
-            'ezypay_customer_id' => $this->ezypayCustomerID,
-            'identifiable_id' => $this->client->id,
-            'identifiable_type' => 'Client',
-            'payment_method_token' => $this->ezypayPaymentMethodToken
-        ]);
-
-        $this->client->ezypay_id = $ezypay->id;
-        $this->client->save();
-
-        // Act
-        $response = $this->actingAs($this->user, 'api')->call('get', '/api/v1/account/payment/', [], $this->cookie);
-
-        // Assert
-        $response->assertJson([
-            'type' => 'CARD',
-            'card_type' => 'MASTERCARD'
-        ]);
     }
 }

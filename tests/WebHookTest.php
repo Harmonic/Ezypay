@@ -17,11 +17,11 @@ class WebHookTest extends EzypayBaseTest {
         //
 
         // Act
-
         $webhooks = Ezypay::getWebhooks();
 
         // Assert
         $this->assertNotNull($webhooks);
+        $this->assertTrue(array_key_exists('data', $webhooks));
     }
 
     /**
@@ -35,7 +35,7 @@ class WebHookTest extends EzypayBaseTest {
         $url = 'http://api.sample' . uniqid() . '.test';
 
         // Act
-        $webhook = Ezypay::createWebHook($url, ['customer_create']);
+        $webhook = Ezypay::createWebhook($url, ['customer_create']);
 
         // Assert
         $this->assertNotNull($webhook);
@@ -92,6 +92,7 @@ class WebHookTest extends EzypayBaseTest {
 
         // Assert
         $this->assertNotNull($webhook);
+        $this->assertEquals(($webhooks['data'][0])['id'], $webhook['id']);
     }
 
     /**

@@ -56,6 +56,7 @@ class VaultTest extends EzypayBaseTest {
 
         // Assert
         $this->assertNotNull($vaultPayment['paymentMethodToken']);
+        $this->assertEquals($vaultPayment['type'], 'CARD');
         $this->assertEquals(substr($cardNumber, -4), $vaultPayment['card']['last4']);
     }
 
@@ -77,5 +78,6 @@ class VaultTest extends EzypayBaseTest {
 
         // Assert
         $this->assertNotNull($paymentMethod);
+        $this->assertEquals($createdPaymentMethod['paymentMethodToken'], $paymentMethod['paymentMethodToken']);
     }
 }

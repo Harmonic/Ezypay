@@ -56,16 +56,15 @@ class PlanTest extends EzypayBaseTest {
             $this->getsAListOfPlans();
         }
         $plans = $this->plans;
-        $oldDetails = $plans[0];
+        $oldDetails = $plans['data'][0];
 
         // Act
         $result = Ezypay::updatePlan($oldDetails['id'], 'New Name', $oldDetails['accountingCode'], 11.00);
-        $reset = Ezypay::updatePlan($oldDetails['id'], $oldDetails['name'], $oldDetails['accountingCode'], $oldDetails['amount']['value']);
 
         // Assert
+        $this->assertTrue(array_key_exists('id', $result));
         $this->assertNotEquals($oldDetails['name'], $result['name']);
-        $this->assertNotEquals($oldDetails['amount']['value'], 1234);
-        $this->assertEquals($oldDetails['amount']['value'], $reset['amount']['value']);
+        $this->assertNotEquals($oldDetails['amount']['value'], $result['amount']['value']);
     }
 
     /**
@@ -81,12 +80,12 @@ class PlanTest extends EzypayBaseTest {
             $this->getsAListOfPlans();
         }
         $plans = $this->plans;
-        $plan = $plans[0];
+        $plan = $plans['data'][0];
 
-        $plan = Ezypay::getPlan($plans[0]['id']);
+        $plan = Ezypay::getPlan($plan['id']);
 
         // Assert
         $this->assertNotNull($plan);
-        $this->assertEquals($plans[0]['id'], $plan['id']);
+        $this->assertEquals($plan['id'], $plan['id']);
     }
 }
