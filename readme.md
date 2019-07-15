@@ -26,14 +26,14 @@ php artisan vendor:publish --provider="harmonic\Ezypay"
 Add Ezypay credentials to your .env file
 
 ```
-EZY_PAY_API_URL_SANDBOX=https://api-sandbox.ezypay.com
-EZY_PAY_API_URL=https://api.ezypay.com/
+EZY_PAY_WEBHOOK_CLIENT_KEY=YOUR_WEBHOOK_CLIENT_KEY
+EZY_PAY_API_URL=https://api-global.ezypay.com
 EZY_PAY_USER=your@email.com
-EZY_PAY_PASSWORD=PASSWORD
+EZY_PAY_PASSWORD=YOUR_PASSWORD
+EZYPAY_INTEGRATOR_ID=YOUR_INTEGRATOR_ID
 EZY_PAY_API_CLIENT_ID=YOUR_CLIENT_ID
 EZY_PAY_CLIENT_SECRET=YOUR_SECRET
 EZY_PAY_MERCHANT_ID=YOUR_MERCHANT_ID
-MIX_VAULT_URL=https://vault-sandbox.ezypay.com
 ```
 
 All Ezypay API mthods are availble via the Ezypay facade.
@@ -53,7 +53,7 @@ Please see the [changelog](changelog.md) for more information on what has change
 ## Testing
 
 ``` bash
-$ composer test
+$ vendor/bin/phpunit
 ```
 
 ## Contributing
@@ -76,7 +76,7 @@ MIT. Please see the [license file](license.md) for more information.
 [ico-version]: https://img.shields.io/packagist/v/harmonic/ezypay.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/harmonic/ezypay.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/harmonic/ezypay/master.svg?style=flat-square
-[ico-styleci]: https://styleci.io/repos/12345678/shield
+[ico-styleci]: https://styleci.io/repos/191169226/shield
 
 [link-packagist]: https://packagist.org/packages/harmonic/ezypay
 [link-downloads]: https://packagist.org/packages/harmonic/ezypay
