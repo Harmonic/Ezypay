@@ -2,21 +2,21 @@
 
 namespace harmonic\Ezypay\Resources;
 
-use harmonic\Ezypay\Resources\Tax;
-use harmonic\Ezypay\Resources\Amount;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Plan extends JsonResource {
+class Plan extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         $meta = null;
 
-        if (!empty($this->resource['metadata'])) {
+        if (! empty($this->resource['metadata'])) {
             $meta = MetaData::make($this->resource['metadata'])->resolve();
         }
 

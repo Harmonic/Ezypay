@@ -2,25 +2,25 @@
 
 namespace harmonic\Ezypay\Resources;
 
-use harmonic\Ezypay\Resources\Card;
-use harmonic\Ezypay\Resources\Bank;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PaymentMethod extends JsonResource {
+class PaymentMethod extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         $bank = null;
         $card = null;
 
-        if (!empty($this->resource['bank'])) {
-			$bank = Bank::make($this->resource['bank'])->resolve();
+        if (! empty($this->resource['bank'])) {
+            $bank = Bank::make($this->resource['bank'])->resolve();
         }
-        if (!empty($this->resource['card'])) {
+        if (! empty($this->resource['card'])) {
             $card = Card::make($this->resource['card'])->resolve();
         }
 
@@ -33,7 +33,7 @@ class PaymentMethod extends JsonResource {
             'invalidReason' => $this->resource['invalidReason'] ?? null,
             'lastUsedOn' => $this->resource['lastUsedOn'],
             'valid' => $this->resource['valid'],
-            'primary' => $this->resource['primary']
+            'primary' => $this->resource['primary'],
         ];
     }
 }

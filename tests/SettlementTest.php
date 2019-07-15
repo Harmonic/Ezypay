@@ -2,19 +2,19 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
-use harmonic\Ezypay\Facades\Ezypay;
 use Illuminate\Support\Carbon;
-use harmonic\Models\Ezypay as EzypayModel;
+use harmonic\Ezypay\Facades\Ezypay;
 
-class SettlementTest extends EzypayBaseTest {
+class SettlementTest extends EzypayBaseTest
+{
     /**
-     * Can get a list of Settlements
+     * Can get a list of Settlements.
      *
      * @test
      * @return void
      */
-    public function getAListOfSettlements() {
+    public function getAListOfSettlements()
+    {
         // Arrange
         // Act
         $settlements = Ezypay::getSettlements();
@@ -24,12 +24,13 @@ class SettlementTest extends EzypayBaseTest {
     }
 
     /**
-     * Can Group Settlement Report
+     * Can Group Settlement Report.
      *
      * @test
      * @return void
      */
-    public function canGroupSettlementReportByAccountingCode() {
+    public function canGroupSettlementReportByAccountingCode()
+    {
         // Arrange
         $dateTo = Carbon::now()->toDateString();
         $dateFrom = Carbon::now()->subDays(30)->toDateString();
@@ -43,12 +44,13 @@ class SettlementTest extends EzypayBaseTest {
     }
 
     /**
-     * Group Settlement Report
+     * Group Settlement Report.
      *
      * @test
      * @return void
      */
-    public function canGroupSettlementReportByTransactionStatus() {
+    public function canGroupSettlementReportByTransactionStatus()
+    {
         // Arrange
         $dateTo = Carbon::now()->toDateString();
         $dateFrom = Carbon::now()->subDays(30)->toDateString();

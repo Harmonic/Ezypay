@@ -2,9 +2,7 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 
 class SubscriptionTest extends EzypayBaseTest
@@ -12,7 +10,7 @@ class SubscriptionTest extends EzypayBaseTest
     use WithFaker;
 
     /**
-     * Can create new subscription
+     * Can create new subscription.
      *
      * @test
      * @return void
@@ -27,7 +25,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Can preview Subscription
+     * Can preview Subscription.
      *
      * @test
      * @return void
@@ -37,7 +35,7 @@ class SubscriptionTest extends EzypayBaseTest
         // Arrange
         $plan = Ezypay::createPlan('Testing Plan', uniqid(), 50.1);
         $customer = Ezypay::createCustomer();
-        
+
         // Act
 
         $subscription = Ezypay::previewSubscription($customer['id'], $plan['id']);
@@ -51,7 +49,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Can get specific subscription
+     * Can get specific subscription.
      *
      * @test
      * @return void
@@ -70,7 +68,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Can get all subscription
+     * Can get all subscription.
      *
      * @test
      * @return void
@@ -88,7 +86,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Can cancel a Subscription
+     * Can cancel a Subscription.
      * @test
      * @return void
      */
@@ -108,7 +106,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Update subscription's payment method
+     * Update subscription's payment method.
      * @test
      * @return void
      */
@@ -128,7 +126,7 @@ class SubscriptionTest extends EzypayBaseTest
     }
 
     /**
-     * Can Activate a subscription
+     * Can Activate a subscription.
      *
      * @test
      * @return void

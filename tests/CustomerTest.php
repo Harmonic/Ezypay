@@ -2,22 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 use Illuminate\Foundation\Testing\WithFaker;
 
-
-class CustomerTest extends EzypayBaseTest {
+class CustomerTest extends EzypayBaseTest
+{
     use WithFaker;
-    
 
     /**
-     * Create a test customer
+     * Create a test customer.
      *
      * @test
      * @return void
      */
-    public function createACustomer() {
+    public function createACustomer()
+    {
         // Arrange
 
         // Act
@@ -30,12 +29,13 @@ class CustomerTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get a list of customers
+     * Can get a list of customers.
      *
      * @test
      * @return void
      */
-    public function getAListOfCustomers() {
+    public function getAListOfCustomers()
+    {
         // Arrange
         // Act
         $customers = Ezypay::getCustomers(true, 'testName');
@@ -47,12 +47,13 @@ class CustomerTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get specific Customer
+     * Can get specific Customer.
      *
      * @test
      * @return void
      */
-    public function getCustomerById() {
+    public function getCustomerById()
+    {
         // Arrange
         // Act
         $customers = Ezypay::getCustomers();
@@ -69,12 +70,13 @@ class CustomerTest extends EzypayBaseTest {
     }
 
     /**
-     * Update Customer
+     * Update Customer.
      *
      * @test
      * @return void
      */
-    public function updateCustomer() {
+    public function updateCustomer()
+    {
         // Arrange
         $this->faker->addProvider(new \Faker\Provider\en_AU\Address($this->faker));
         $firstName = $this->faker->firstName;

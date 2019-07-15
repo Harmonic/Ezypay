@@ -5,9 +5,10 @@ namespace harmonic\Ezypay\Traits;
 use harmonic\Ezypay\Enums\InvoiceStatus;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-trait Invoice {
+trait Invoice
+{
     /**
-     * Get a list of invoices from Ezypay server
+     * Get a list of invoices from Ezypay server.
      *
      * @param bool $fetchAll Get all pages of results
      * @param string $customerId Filter by unique identifier of the customer.
@@ -15,12 +16,13 @@ trait Invoice {
      * @param string $status Filter by invoice status. Supported values are paid, processing, past_due, refunded and written_off
      * @param string $from Start date for range of invoices to view. Filter by date defined in the invoice date
      * @param string $until End date for range of invoices to view. Filter by date defined in the invoice date
-     * @param integer $limit Apply a limit to the number of objects to be returned. Supported limit range is 1 to 100. Defaults to 10.
-     * @param integer $cursor An cursor for use in pagination. By specifying the number of objects to skip, you are able to fetch the next page of objects. For example, if you make a list request with limit=10 and cursor=10, you will retrieve objects 11-20 across the full list.
+     * @param int $limit Apply a limit to the number of objects to be returned. Supported limit range is 1 to 100. Defaults to 10.
+     * @param int $cursor An cursor for use in pagination. By specifying the number of objects to skip, you are able to fetch the next page of objects. For example, if you make a list request with limit=10 and cursor=10, you will retrieve objects 11-20 across the full list.
      * @return array
      */
-    public function getInvoices(bool $fetchAll = false, string $customerId = null, string $subscriptionId = null, int $status = null, string $from = null, string $until = null, int $limit = null, int $cursor = null) {
-        if ($status !== null && !InvoiceStatus::hasValue($status)) {
+    public function getInvoices(bool $fetchAll = false, string $customerId = null, string $subscriptionId = null, int $status = null, string $from = null, string $until = null, int $limit = null, int $cursor = null)
+    {
+        if ($status !== null && ! InvoiceStatus::hasValue($status)) {
             throw new InvalidParameterException("Status must be a valid number from harmonic\Enums\InvoiceStatus");
         }
 
@@ -31,129 +33,140 @@ trait Invoice {
             'from' => $from,
             'until' => $until,
             'limit' => $limit,
-            'cursor' => $cursor
+            'cursor' => $cursor,
         ];
 
         return $this->paginate('billing/invoices', $filters, $fetchAll);
     }
 
     /**
-     * Create Invoice
+     * Create Invoice.
      *
      * @param string $customerId
      * @param array $items
      * @param string $paymentMethodToken
      * @param string $memo
-     * @param boolean $autoPayment
+     * @param bool $autoPayment
      * @param string $scheduledPaymentDate
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function createInvoice(string $customerId, array $items, string $paymentMethodToken = null, string $memo = null, bool $autoPayment = true, string $scheduledPaymentDate = null) {
+    public function createInvoice(string $customerId, array $items, string $paymentMethodToken = null, string $memo = null, bool $autoPayment = true, string $scheduledPaymentDate = null)
+    {
         $data = [
             'customerId' => $customerId,
             'items' => $items,
             'paymentMethodToken' => $paymentMethodToken,
             'memo' => $memo,
             'autoPayment' => $autoPayment,
-            'scheduledPaymentDate' => $scheduledPaymentDate
+            'scheduledPaymentDate' => $scheduledPaymentDate,
         ];
 
         $invoice = $this->request('POST', 'billing/invoices', $data);
+
         return $invoice;
     }
 
     /**
-     * Get a specific invoice
+     * Get a specific invoice.
      *
      * @param string $invoiceId
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function getInvoice(string $invoiceId) {
-        $response = $this->request('GET', 'billing/invoices/' . $invoiceId);
+    public function getInvoice(string $invoiceId)
+    {
+        $response = $this->request('GET', 'billing/invoices/'.$invoiceId);
+
         return \harmonic\Ezypay\Resources\Invoice::make($response)->resolve();
     }
 
     /**
-     * Update a invoice
+     * Update a invoice.
      *
      * @param string $invoiceId
      * @param array $items
      * @param string $paymentMethodToken
      * @param object $scheduledPaymentDate
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function updateInvoice(string $invoiceId, array $items = null, string $paymentMethodToken = null, \Carbon\Carbon $scheduledPaymentDate = null) {
+    public function updateInvoice(string $invoiceId, array $items = null, string $paymentMethodToken = null, \Carbon\Carbon $scheduledPaymentDate = null)
+    {
         $data = [];
 
-        if (!empty($items)) {
+        if (! empty($items)) {
             $data['items'] = $items;
         }
 
-        if (!empty($paymentMethodToken)) {
+        if (! empty($paymentMethodToken)) {
             $data['paymentMethodToken'] = $paymentMethodToken;
         }
 
-        if (!empty($scheduledPaymentDate)) {
+        if (! empty($scheduledPaymentDate)) {
             $data['scheduledPaymentDate'] = $scheduledPaymentDate->toDateString();
         }
 
-        $invoice = $this->request('PUT', 'billing/invoices/' . $invoiceId, $data);
+        $invoice = $this->request('PUT', 'billing/invoices/'.$invoiceId, $data);
+
         return $invoice;
     }
 
     /**
-     * Record an external payment for an invoice
+     * Record an external payment for an invoice.
      *
      * @param string $invoiceId
      * @param string $paymentMethodType
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function recordExternalPayment(string $invoiceId, string $paymentMethodType = null) {
+    public function recordExternalPayment(string $invoiceId, string $paymentMethodType = null)
+    {
         $data = ['paymentMethodType' => $paymentMethodType];
 
-        $invoice = $this->request('POST', 'billing/invoices/' . $invoiceId . '/recordpayment', $data);
+        $invoice = $this->request('POST', 'billing/invoices/'.$invoiceId.'/recordpayment', $data);
+
         return $invoice;
     }
 
     /**
-     * Refund an invoice
+     * Refund an invoice.
      *
      * @param string $invoiceId
      * @param string $amountCurrency
-     * @param integer $amountValue
+     * @param int $amountValue
      * @param array $items
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function refundInvoice(string $invoiceId, string $amountCurrency, int $amountValue, array $items = []) {
+    public function refundInvoice(string $invoiceId, string $amountCurrency, int $amountValue, array $items = [])
+    {
         $data = [
             'amount' => [
                 'currency' => $amountCurrency,
-                'value' => $amountValue
+                'value' => $amountValue,
             ],
-            'items' => $items
+            'items' => $items,
         ];
 
-        $invoice = $this->request('PUT', 'billing/invoices/' . $invoiceId . '/refund', $data);
+        $invoice = $this->request('PUT', 'billing/invoices/'.$invoiceId.'/refund', $data);
+
         return $invoice;
     }
 
     /**
-     * Retry a payment on an invoice
+     * Retry a payment on an invoice.
      *
      * @param string $invoiceId
      * @param bool $oneOff
      * @param string $paymentMethodToken
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function retryPayment(string $invoiceId, bool $oneOff = false, string $paymentMethodToken = null) {
+    public function retryPayment(string $invoiceId, bool $oneOff = false, string $paymentMethodToken = null)
+    {
         $data = [
             'oneOff' => $oneOff,
-            'paymentMethodToken' => $paymentMethodToken
+            'paymentMethodToken' => $paymentMethodToken,
         ];
 
         $invoice = $this->request(
             'POST',
-            'billing/invoices/' . $invoiceId . '/retrypayment',
+            'billing/invoices/'.$invoiceId.'/retrypayment',
             $data
         );
 
@@ -161,13 +174,14 @@ trait Invoice {
     }
 
     /**
-     * Write off an invoice
+     * Write off an invoice.
      *
      * @param string $invoiceId
      * @param array $data body params see https://developer.ezypay.com/reference#writeoffpaymentusingpost
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function writeOffAnInvoice(string $invoiceId) {
+    public function writeOffAnInvoice(string $invoiceId)
+    {
         /**
          * @note array('id'=>null) is dummy data only as ezypay throws GuzzleHttp\Exception\ClientException:
          * Client error: `POST https://api-sandbox.ezypay.com/v2/billing/invoices/b2db7762-c514-49ea-b449-55ff0e1d2f09/writeoff?id=1` resulted in a `400 Bad Request` response:
@@ -175,6 +189,6 @@ trait Invoice {
          */
         $data = ['id' => null];
 
-        return $this->request('POST', 'billing/invoices/' . $invoiceId . '/writeoff', $data);
+        return $this->request('POST', 'billing/invoices/'.$invoiceId.'/writeoff', $data);
     }
 }

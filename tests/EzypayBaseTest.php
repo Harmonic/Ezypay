@@ -2,21 +2,22 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use harmonic\Ezypay\Facades\Ezypay;
 use Illuminate\Support\Carbon;
+use harmonic\Ezypay\Facades\Ezypay;
+use Illuminate\Foundation\Testing\WithFaker;
 
 abstract class EzypayBaseTest extends \Orchestra\Testbench\TestCase
 {
     use WithFaker;
 
-    protected function setUp() : void {
+    protected function setUp() : void
+    {
         parent::setUp();
         Ezypay::fake();
     }
 
     /**
-     * Create a test customer
+     * Create a test customer.
      *
      * @return Customer
      */
@@ -43,7 +44,7 @@ abstract class EzypayBaseTest extends \Orchestra\Testbench\TestCase
     protected function &createSubscription(array $customer, bool $isPending = false, bool $returnClient = false)
     {
         $startDate = $isPending ? Carbon::now()->addDays(14) : null;
-    
+
         $paymentMethod = &$this->getSharedPaymentMethod();
         if ($paymentMethod == null) {
             $paymentMethod = Ezypay::createPaymentMethod($customer['id'], $this->ezypayPaymentMethodToken);
@@ -57,18 +58,21 @@ abstract class EzypayBaseTest extends \Orchestra\Testbench\TestCase
     protected function &getSharedSubscription()
     {
         static $sharedSubscription = null;
+
         return $sharedSubscription;
     }
 
     protected function &getSharedCustomer()
     {
         static $customer = null;
+
         return $customer;
     }
 
     protected function &getSharedPaymentMethod()
     {
         static $paymentMethod = null;
+
         return $paymentMethod;
     }
 }

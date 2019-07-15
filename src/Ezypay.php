@@ -3,60 +3,65 @@
 namespace harmonic\Ezypay;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
-use harmonic\Ezypay\Traits\Merchant;
 use harmonic\Ezypay\Traits\Plan;
-use harmonic\Ezypay\Traits\Customer;
+use harmonic\Ezypay\Traits\Event;
 use harmonic\Ezypay\Traits\Vault;
-use harmonic\Ezypay\Traits\PaymentMethod;
-use harmonic\Ezypay\Traits\Subscription;
 use harmonic\Ezypay\Traits\Invoice;
 use harmonic\Ezypay\Traits\WebHook;
-use harmonic\Ezypay\Traits\Transaction;
+use harmonic\Ezypay\Traits\Customer;
+use harmonic\Ezypay\Traits\Merchant;
 use harmonic\Ezypay\Traits\CreditNote;
-use harmonic\Ezypay\Traits\FutureInvoice;
 use harmonic\Ezypay\Traits\Settlement;
-use harmonic\Ezypay\Traits\Event;
+use harmonic\Ezypay\Traits\Transaction;
+use Illuminate\Support\Facades\Storage;
+use harmonic\Ezypay\Traits\Subscription;
+use harmonic\Ezypay\Traits\FutureInvoice;
+use harmonic\Ezypay\Traits\PaymentMethod;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-class Ezypay {
+class Ezypay
+{
     use Merchant, Plan, Customer, Vault, PaymentMethod, Subscription, Invoice, WebHook, Transaction, CreditNote, FutureInvoice, Settlement, Event;
 
     private $token = null;
     private $tokenFile = 'ezypayToken.txt';
     private $currency = 'AUD';
 
-    public function __construct(String $defaultCurrency = 'AUD') {
+    public function __construct(string $defaultCurrency = 'AUD')
+    {
         $this->currency = $defaultCurrency;
         $this->token = $this->getAccessToken();
     }
 
-    public function instance() {
+    public function instance()
+    {
         return $this;
     }
 
-    public function getToken() {
+    public function getToken()
+    {
         return $this->token;
     }
 
     /**
-     * Send a request to the Ezypay API
+     * Send a request to the Ezypay API.
      *
-     * @param String $uri The uri of the request eg. clients
+     * @param string $uri The uri of the request eg. clients
      * @param array $params An array of parameters to send with the request
-     * @return Object The object returned by the API
+     * @return object The object returned by the API
      */
-    private function request(String $method, String $uri, array $params = [], bool $forceQuery = false) {
+    private function request(string $method, string $uri, array $params = [], bool $forceQuery = false)
+    {
         $client = new Client(); //GuzzleHttp\Client
-        $url = config('ezypay.url') . $uri;
+        $url = config('ezypay.url').$uri;
         if (starts_with($uri, 'vault/')) {
-            $url = config('ezypay.vault_url') . $uri;
+            $url = config('ezypay.vault_url').$uri;
         }
 
         $method = strtoupper($method);
         $data = ['headers' => [
-            'Authorization' => 'Bearer ' . $this->token,
+            'Authorization' => 'Bearer '.$this->token,
             'Cache-Control' => 'no-cache',
             'Content-Type' => 'application/json',
             'Merchant' => config('ezypay.merchant_id'),
@@ -77,7 +82,7 @@ class Ezypay {
                 $data['query'] = $params;
                 break;
             default:
-                throw new \Exception('Invalid method provided: ' . $method);
+                throw new \Exception('Invalid method provided: '.$method);
         }
         $response = $client->request($method, $url, $data);
 
@@ -91,14 +96,15 @@ class Ezypay {
     }
 
     /**
-     * Automatically paginates a result set
+     * Automatically paginates a result set.
      *
      * @param string $uri
      * @param array $data
-     * @param boolean $fetchAll
+     * @param bool $fetchAll
      * @return array Of items
      */
-    private function paginate(string $uri, array $data, bool $fetchAll = false) {
+    private function paginate(string $uri, array $data, bool $fetchAll = false)
+    {
         $response = $this->request('GET', $uri, $data);
 
         $items = $response['data'];
@@ -106,7 +112,7 @@ class Ezypay {
         $currentNumItems = count($items);
 
         if ($fetchAll) {
-            if (!array_key_exists('limit', $data) || !array_key_exists('cursor', $data)) {
+            if (! array_key_exists('limit', $data) || ! array_key_exists('cursor', $data)) {
                 throw new InvalidParameterException('Pagination requires data to include a cursor and a limit.');
             }
             $limit = $data['limit'];
@@ -123,24 +129,26 @@ class Ezypay {
     }
 
     /**
-     * Take a Guzzle repsonse and return object
+     * Take a Guzzle repsonse and return object.
      *
      * @param Guzzle\Response $response
-     * @return Object Response contents object
+     * @return object Response contents object
      */
-    private function processResponse($response) {
+    private function processResponse($response)
+    {
         $stringResponse = (string) $response->getBody();
 
         return json_decode($stringResponse, true);
     }
 
     /**
-     * Retrieve an oAuth token from EZYPAY
+     * Retrieve an oAuth token from EZYPAY.
      *
-     * @param String $refreshToken The refresh token (if requesting)
+     * @param string $refreshToken The refresh token (if requesting)
      * @return void
      */
-    private function requestToken(String $refreshToken = null) {
+    private function requestToken(string $refreshToken = null)
+    {
         $client = new Client(); //GuzzleHttp\Client
 
         $url = config('ezypay.token_url');
@@ -150,7 +158,7 @@ class Ezypay {
             'client_secret' => config('ezypay.client_secret'),
         ];
 
-        if (!empty($refreshToken)) {
+        if (! empty($refreshToken)) {
             $data['grant_type'] = 'refresh_token';
             $data['refresh_token'] = $refreshToken;
         } else { // assume getting first token
@@ -164,9 +172,9 @@ class Ezypay {
             'headers' => [
                 'Authorization' => 'application/x-www-form-urlencoded',
                 'Cache-Control' => 'no-cache',
-                'Content-Type' => 'application/x-www-form-urlencoded'
+                'Content-Type' => 'application/x-www-form-urlencoded',
             ],
-            'form_params' => $data
+            'form_params' => $data,
         ]);
 
         $token = (string) $response->getBody();
@@ -180,15 +188,17 @@ class Ezypay {
     }
 
     /**
-     * Retrieve the current token or get a new one
+     * Retrieve the current token or get a new one.
      *
      * @return void
      */
-    private function getAccessToken() {
+    private function getAccessToken()
+    {
         try {
             $tokenDataFile = Storage::disk('local')->get($this->tokenFile);
         } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
             $tokenData = $this->requestToken();
+
             return $tokenData['access_token'];
         }
 

@@ -2,24 +2,25 @@
 
 namespace harmonic\Ezypay\Resources;
 
-use harmonic\Ezypay\Resources\Address;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Customer extends JsonResource {
+class Customer extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         $address = $this->resource['address'] ?? null;
         $metadata = $this->resource['metadata'] ?? null;
 
-        if (!empty($address)) {
+        if (! empty($address)) {
             $address = Address::make($address)->resolve();
         }
-        if (!empty($metadata)) {
+        if (! empty($metadata)) {
             $metadata = MetaData::make($metadata)->resolve();
         }
 
@@ -37,7 +38,7 @@ class Customer extends JsonResource {
             'customerNumber' => $this->resource['number'] ?? null,
             'createdDate' => $this->resource['createdOn'] ?? null,
             'address' => $address,
-            'metadata' => $metadata
+            'metadata' => $metadata,
         ];
     }
 }

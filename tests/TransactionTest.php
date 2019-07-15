@@ -2,19 +2,18 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
-use Illuminate\Support\Carbon;
-use harmonic\Models\Ezypay as EzypayModel;
 
-class TransactionTest extends EzypayBaseTest {
+class TransactionTest extends EzypayBaseTest
+{
     /**
-     * Can get a list of invoices
+     * Can get a list of invoices.
      *
      * @test
      * @return void
      */
-    public function getAListOfTransactions() {
+    public function getAListOfTransactions()
+    {
         // Arrange
         // Act
         $transactions = Ezypay::getTransactions();
@@ -26,12 +25,13 @@ class TransactionTest extends EzypayBaseTest {
     }
 
     /**
-     * Should return all transactions filtered by status
+     * Should return all transactions filtered by status.
      *
      * @test
      * @return void
      */
-    public function getListOfTransactionsFilteredByStatus() {
+    public function getListOfTransactionsFilteredByStatus()
+    {
         // Arrange
         // Act
 
@@ -43,12 +43,13 @@ class TransactionTest extends EzypayBaseTest {
     }
 
     /**
-     * Can get specific transaction
+     * Can get specific transaction.
      *
      * @test
      * @return void
      */
-    public function getTransactionById() {
+    public function getTransactionById()
+    {
         // Arrange
 
         // Act

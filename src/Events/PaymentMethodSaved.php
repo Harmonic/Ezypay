@@ -2,16 +2,14 @@
 
 namespace harmonic\Ezypay\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
+use harmonic\Ezypay\Resources\PaymentMethod;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use harmonic\Ezypay\Resources\PaymentMethod;
 
-class PaymentMethodSaved {
+class PaymentMethodSaved
+{
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $paymentMethod;
@@ -21,7 +19,8 @@ class PaymentMethodSaved {
      *
      * @return void
      */
-    public function __construct(PaymentMethod $paymentMethod) {
+    public function __construct(PaymentMethod $paymentMethod)
+    {
         $this->paymentMethod = $paymentMethod->resolve();
     }
 
@@ -31,7 +30,8 @@ class PaymentMethodSaved {
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
-    public function broadcastOn() {
+    public function broadcastOn()
+    {
         return new PrivateChannel('channel-name');
     }
 }
