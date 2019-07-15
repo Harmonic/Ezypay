@@ -9,24 +9,16 @@ use Illuminate\Support\Facades\Storage;
 class ConnectionTest extends EzypayBaseTest
 {
     /**
-     * Test connection to Ezypay and that we re-use the token
+     * get token
      *
      * @test
      * @return void
      */
-    public function ezyPayConnect()
-    {
-        $tokenFile = 'ezypayToken.txt';
+    public function getToken() {
+        // Act
+        $token = Ezypay::getToken();
 
-        $ezypay = Ezypay::instance();
-        $this->assertTrue(Storage::disk('ezypayTest')->exists($tokenFile));
-        $tokenDetails = Storage::disk('ezypayTest')->get($tokenFile);
-        $this->assertJson($tokenDetails);
-        $tokenObj = json_decode($tokenDetails, true);
-        $oldToken = $tokenObj['access_token'];
-        $ezypay = Ezypay::instance();
-        $tokenDetails = Storage::disk('ezypayTest')->get($tokenFile);
-        $tokenObj = json_decode($tokenDetails, true);
-        $this->assertEquals($oldToken, $tokenObj['access_token']);
+        // Assert
+        $this->assertIsString($token);
     }
 }

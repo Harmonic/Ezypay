@@ -23,7 +23,6 @@ class EzypayFake {
     protected $faker;
 
     protected $token = null;
-    private $tokenFile = 'ezypayToken.txt';
 
     /**
      * Create a new event fake instance.
@@ -1714,27 +1713,12 @@ class EzypayFake {
         ];
 
         $tokenObj['expiration'] = Carbon::now()->addSeconds(3590); // Just under hour
-        Storage::disk('ezypayTest')->put($this->tokenFile, json_encode($tokenObj));
 
         return $tokenObj;
     }
 
     private function getAccessToken() {
-        try {
-            $tokenDataFile = Storage::disk('ezypayTest')->get($this->tokenFile);
-        } catch (\Illuminate\Contracts\Filesystem\FileNotFoundException $e) {
-            $tokenData = $this->requestToken();
-            return $tokenData['access_token'];
-        }
-
-        $tokenData = json_decode($tokenDataFile, true);
-
-        $now = Carbon::now();
-        $tokenIsExpired = ($now->gte(new Carbon($tokenData['expiration'])));
-
-        if ($tokenIsExpired) {
-            $tokenData = $this->requestToken($tokenData['refresh_token']);
-        }
+        $tokenData = $this->requestToken();
 
         return $tokenData['access_token'];
     }
@@ -1815,5 +1799,9 @@ class EzypayFake {
         "entityId" => $webhookId,
         "deleted" => true,
       ];   
+    }
+
+    public function resendEvent(string $eventId) {
+      return [];
     }
 }
