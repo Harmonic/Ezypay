@@ -4,14 +4,16 @@ namespace harmonic\Ezypay\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Merchant extends JsonResource {
+class Merchant extends JsonResource
+{
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request) {
+    public function toArray($request)
+    {
         return [
             'id' => $this->resource['id'],
             'number' => $this->resource['number'],
@@ -40,7 +42,7 @@ class Merchant extends JsonResource {
             'metadata' => $this->resource['metadata'],
             'type' => $this->resource['type'],
             'feePricingId' => $this->resource['feePricingId'],
-            'documentNumberSettings' => $this->resource['documentNumberSettings']
+            'documentNumberSettings' => $this->resource['documentNumberSettings'],
         ];
     }
 }

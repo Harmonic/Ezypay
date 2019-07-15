@@ -2,22 +2,22 @@
 
 namespace harmonic\Ezypay\Traits;
 
-use Symfony\Component\Routing\Exception\InvalidParameterException;
-
-trait FutureInvoice {
+trait FutureInvoice
+{
     /**
-     * Create Future Invoice
+     * Create Future Invoice.
      *
      * @param string $subscriptionId
      * @param string $cycleStartDate
      * @param string $paymentMethodType
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType) {
+    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType)
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
             'cycleStartDate' => $cycleStartDate,
-            'paymentMethodType' => $paymentMethodType
+            'paymentMethodType' => $paymentMethodType,
         ];
 
         $invoice = $this->request(
@@ -30,36 +30,39 @@ trait FutureInvoice {
     }
 
     /**
-     * Update Future Invoice
+     * Update Future Invoice.
      *
      * @param string $subscriptionId
      * @param string $cycleStartDate
      * @param string $paymentMethodType
-     * @return Object Invoice
+     * @return object Invoice
      */
-    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = []) {
+    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = [])
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
             'cycleStartDate' => $cycleStartDate,
             'date' => $date,
-            'items' => $items
+            'items' => $items,
         ];
 
         $invoice = $this->request('PUT', 'billing/futureinvoices', $data);
+
         return $invoice;
     }
 
     /**
-     * Delete Future Invoice
+     * Delete Future Invoice.
      *
      * @param string $subscriptionId
      * @param string $cycleStartDate
      * @return $response entityId bool deleted
      */
-    public function deleteFutureInvoice(string $subscriptionId, string $cycleStartDate) {
+    public function deleteFutureInvoice(string $subscriptionId, string $cycleStartDate)
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
-            'cycleStartDate' => $cycleStartDate
+            'cycleStartDate' => $cycleStartDate,
         ];
 
         $response = $this->request(
@@ -68,27 +71,29 @@ trait FutureInvoice {
             $data,
             true
         );
+
         return $response;
     }
 
     /**
-     * Get a list of Future Invoice from Ezypay server
+     * Get a list of Future Invoice from Ezypay server.
      *
      * @param string $subscriptionId
      * @param string $customerId
-     * @param integer $limit
+     * @param int $limit
      * @param string $from
      * @param string $until
      * @param bool $fetchAll Get all pages of results
      * @return array Objects
      */
-    public function getFutureInvoice(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false) {
+    public function getFutureInvoice(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false)
+    {
         $filters = [
             'subscriptionId' => $subscriptionId,
             'customerId' => $customerId,
             'from' => $from,
             'until' => $until,
-            'limit' => $limit
+            'limit' => $limit,
         ];
 
         return $this->paginate('billing/futureinvoices', $filters, $fetchAll);

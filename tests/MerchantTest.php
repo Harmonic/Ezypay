@@ -2,20 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 
 /**
  * @note run customer test before running this test to make sure there's customer already created
  */
-class MerchantTest extends EzypayBaseTest {
+class MerchantTest extends EzypayBaseTest
+{
     /**
-     * Get merchant details
+     * Get merchant details.
      *
      * @test
      * @return void
      */
-    public function getMerchantDetails() {
+    public function getMerchantDetails()
+    {
         // Arrange
 
         // Act

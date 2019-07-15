@@ -2,16 +2,13 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
-use harmonic\Ezypay\Facades\Ezypay;
 use Illuminate\Support\Carbon;
-
+use harmonic\Ezypay\Facades\Ezypay;
 
 class FutureInvoiceTest extends EzypayBaseTest
 {
-    
     /**
-     * Can record external payment future invoice
+     * Can record external payment future invoice.
      *
      * @test
      * @return void
@@ -32,7 +29,7 @@ class FutureInvoiceTest extends EzypayBaseTest
     }
 
     /**
-     * Can get list of future invoices
+     * Can get list of future invoices.
      *
      * @test
      * @return void
@@ -61,7 +58,7 @@ class FutureInvoiceTest extends EzypayBaseTest
     }
 
     /**
-     * Can record external payment future invoice
+     * Can record external payment future invoice.
      *
      * @test
      * @return void
@@ -82,7 +79,7 @@ class FutureInvoiceTest extends EzypayBaseTest
     }
 
     /**
-     * Can delete future invoice
+     * Can delete future invoice.
      *
      * @test
      * @return void
@@ -97,6 +94,6 @@ class FutureInvoiceTest extends EzypayBaseTest
         $futureInvoice = Ezypay::deleteFutureInvoice($invoice['subscriptionId'], $invoice['cycleStartDate']);
 
         // Assert
-        $this->assertEquals($futureInvoice['delete'], "true");
+        $this->assertEquals($futureInvoice['delete'], 'true');
     }
 }

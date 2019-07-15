@@ -4,7 +4,8 @@ namespace harmonic\Ezypay\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class InvoiceStatus extends Enum {
+final class InvoiceStatus extends Enum
+{
     const paid = 0;
     const processing = 1;
     const past_due = 2;

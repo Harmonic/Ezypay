@@ -2,20 +2,21 @@
 
 namespace harmonic\Ezypay\Tests;
 
-use harmonic\Ezypay\Tests\EzypayBaseTest;
 use harmonic\Ezypay\Facades\Ezypay;
 
 /**
  * @note run customer test before running this test to make sure there's customer already created
  */
-class CreditNoteTest extends EzypayBaseTest {
+class CreditNoteTest extends EzypayBaseTest
+{
     /**
-     * can get list of notes otherwise no notes found
+     * can get list of notes otherwise no notes found.
      *
      * @test
      * @return void
      */
-    public function getAListOfCreditNotes() {
+    public function getAListOfCreditNotes()
+    {
         // Arrange
         $customerId = $this->faker->uuid;
 
@@ -30,12 +31,13 @@ class CreditNoteTest extends EzypayBaseTest {
     }
 
     /**
-     * can get record by id
+     * can get record by id.
      *
      * @test
      * @return void
      */
-    public function canRetriveANoteById() {
+    public function canRetriveANoteById()
+    {
         // Arrange
         $customerId = $this->faker->uuid;
         $creditNotes = Ezypay::getCreditNotes(
