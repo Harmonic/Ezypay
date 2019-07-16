@@ -4,14 +4,16 @@ namespace harmonic\Ezypay\Tests;
 
 use harmonic\Ezypay\Facades\Ezypay;
 
-class WebHookTest extends EzypayBaseTest {
+class WebHookTest extends EzypayBaseTest
+{
     /**
      * Can get a list of WebHook.
      *
      * @test
      * @return void
      */
-    public function getAListOfWebHook() {
+    public function getAListOfWebHook()
+    {
         // Arrange
         //
 
@@ -29,9 +31,10 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canCreateWebhook() {
+    public function canCreateWebhook()
+    {
         // Arrange
-        $url = 'http://api.sample' . uniqid() . '.test';
+        $url = 'http://api.sample'.uniqid().'.test';
 
         // Act
         $webhook = Ezypay::createWebhook($url, ['customer_create']);
@@ -47,7 +50,8 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function getAListOfWebHookLogs() {
+    public function getAListOfWebHookLogs()
+    {
         // Arrange
 
         // Act
@@ -63,7 +67,8 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canSimulateWebhook() {
+    public function canSimulateWebhook()
+    {
         // Arrange
 
         // Act
@@ -81,7 +86,8 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canGetWebhookDetails() {
+    public function canGetWebhookDetails()
+    {
         // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 
@@ -99,7 +105,8 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canUpdateWebhook() {
+    public function canUpdateWebhook()
+    {
         // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 
@@ -117,7 +124,8 @@ class WebHookTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canDeleteWebhook() {
+    public function canDeleteWebhook()
+    {
         // Arrange
         $webhooks = Ezypay::getWebhooks(1);
 
