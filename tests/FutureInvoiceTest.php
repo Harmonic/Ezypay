@@ -5,16 +5,14 @@ namespace harmonic\Ezypay\Tests;
 use Illuminate\Support\Carbon;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class FutureInvoiceTest extends EzypayBaseTest
-{
+class FutureInvoiceTest extends EzypayBaseTest {
     /**
      * Can record external payment future invoice.
      *
      * @test
      * @return void
      */
-    public function canRecordExternalPayment()
-    {
+    public function canRecordExternalPayment() {
         // Arrange
         $customer = Ezypay::createCustomer();
         $subscription = Ezypay::createSubscription($customer['id']);
@@ -34,15 +32,14 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canGetListOfFutureInvoice()
-    {
+    public function canGetListOfFutureInvoices() {
         // Arrange
         $subscription = Ezypay::getSubscription($this->faker->uuid);
         $startDate = Carbon::now()->addDays(30)->toDateString();
         $endDate = Carbon::now()->addDays(60)->toDateString();
 
         // Act
-        $futureInvoices = Ezypay::getFutureInvoice(
+        $futureInvoices = Ezypay::getFutureInvoices(
             $subscription['id'],
             $subscription['customerId'],
             $startDate,
@@ -63,10 +60,9 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canUpdateFutureInvoice()
-    {
+    public function canUpdateFutureInvoice() {
         // Arrange
-        $futureInvoices = Ezypay::getSharedFutureInvoice();
+        $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
         // Act
         $invoice = $futureInvoices['data'][0];
@@ -84,10 +80,9 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canDeteleInvoice()
-    {
+    public function canDeleteInvoice() {
         // Arrange
-        $futureInvoices = Ezypay::getSharedFutureInvoice();
+        $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
         // Act
         $invoice = $futureInvoices['data'][0];

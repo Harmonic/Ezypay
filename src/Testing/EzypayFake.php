@@ -1308,21 +1308,6 @@ class EzypayFake {
         return $futureInvoice;
     }
 
-    public function getSharedFutureInvoices() {
-        $subscription = $this->getSubscription($this->faker->uuid);
-        $startDate = Carbon::now()->addDays(30)->toDateString();
-        $endDate = Carbon::now()->addDays(60)->toDateString();
-        $futureInvoices = $this->getFutureInvoice(
-            $subscription['id'],
-            $subscription['customerId'],
-            $startDate,
-            $endDate,
-            true
-      );
-
-        return $futureInvoices;
-    }
-
     public function deleteFutureInvoice() {
         return [
           'entityId' => $this->faker->uuid,
