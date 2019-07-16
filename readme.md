@@ -54,9 +54,9 @@ Simply call
 Ezypay::methodName
 ```
 Where methodName is any method from https://developer.ezypay.com/reference
-eg. createCustomer()
+eg. createCustomer(), getCustomers()
 
-## Testing
+## Testing Facade
 
 There is a testing facade available for your tests that will return fake data. In your tests:
 
@@ -75,7 +75,7 @@ Then use Ezypay facade as normal.
 
 Please see the [changelog](changelog.md) for more information on what has changed recently.
 
-## Testing
+## Tests
 
 ``` bash
 $ vendor/bin/phpunit
