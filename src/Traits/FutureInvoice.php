@@ -2,7 +2,8 @@
 
 namespace harmonic\Ezypay\Traits;
 
-trait FutureInvoice {
+trait FutureInvoice
+{
     /**
      * Create Future Invoice.
      *
@@ -11,7 +12,8 @@ trait FutureInvoice {
      * @param string $paymentMethodType
      * @return object Invoice
      */
-    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType) {
+    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType)
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
             'cycleStartDate' => $cycleStartDate,
@@ -35,7 +37,8 @@ trait FutureInvoice {
      * @param string $paymentMethodType
      * @return object Invoice
      */
-    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = []) {
+    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = [])
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
             'cycleStartDate' => $cycleStartDate,
@@ -55,7 +58,8 @@ trait FutureInvoice {
      * @param string $cycleStartDate
      * @return $response entityId bool deleted
      */
-    public function deleteFutureInvoice(string $subscriptionId, string $cycleStartDate) {
+    public function deleteFutureInvoice(string $subscriptionId, string $cycleStartDate)
+    {
         $data = [
             'subscriptionId' => $subscriptionId,
             'cycleStartDate' => $cycleStartDate,
@@ -82,7 +86,8 @@ trait FutureInvoice {
      * @param bool $fetchAll Get all pages of results
      * @return array Objects
      */
-    public function getFutureInvoices(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false) {
+    public function getFutureInvoices(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false)
+    {
         $filters = [
             'subscriptionId' => $subscriptionId,
             'customerId' => $customerId,
