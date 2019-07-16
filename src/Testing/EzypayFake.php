@@ -7,7 +7,8 @@ use Faker\Factory as Faker;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
-class EzypayFake {
+class EzypayFake
+{
     /**
      * The commands that should be intercepted instead of called to ezypay.
      *
@@ -31,22 +32,26 @@ class EzypayFake {
      * @param  array|string  $eventsToFake
      * @return void
      */
-    public function __construct($commandsToFake = []) {
+    public function __construct($commandsToFake = [])
+    {
         Storage::fake('ezypayTest');
         $this->commandsToFake = Arr::wrap($commandsToFake);
         $this->faker = Faker::create();
         $this->token = $this->getAccessToken();
     }
 
-    public function instance() {
+    public function instance()
+    {
         return $this;
     }
 
-    public function getToken() {
+    public function getToken()
+    {
         return $this->token;
     }
 
-    public function createCreditCardPaymentMethod(string $accountHolderName, string $cardNumber, int $expiryMonth, int $expiryYear, string $country = 'AU') {
+    public function createCreditCardPaymentMethod(string $accountHolderName, string $cardNumber, int $expiryMonth, int $expiryYear, string $country = 'AU')
+    {
         $vault = [
         'type' => 'CARD',
         'card' => [
@@ -64,13 +69,15 @@ class EzypayFake {
         return $vault;
     }
 
-    public function getSubscription(string $subscriptionId) {
+    public function getSubscription(string $subscriptionId)
+    {
         $customerId = '93f3dee2-5424-4c06-be14-4fa6c2caa71b';
 
         return $this->createSubscription($customerId);
     }
 
-    public function createSubscription(string $customerId, string $planId = null, string $paymentMethodToken = null, Carbon $startDate = null, bool $markAsPending = false, bool $customNotification = false) {
+    public function createSubscription(string $customerId, string $planId = null, string $paymentMethodToken = null, Carbon $startDate = null, bool $markAsPending = false, bool $customNotification = false)
+    {
         $subscription = [
             'id' => '77d9f27f-fbfd-4d7a-9433-75841a4662dd',
             'customerId' => $customerId,
@@ -154,7 +161,8 @@ class EzypayFake {
         return $subscription;
     }
 
-    public function createPaymentMethod(string $customerId, string $vaultPaymentMethod, bool $primary = true) {
+    public function createPaymentMethod(string $customerId, string $vaultPaymentMethod, bool $primary = true)
+    {
         $paymentMethod = [
           'paymentMethodToken' => $vaultPaymentMethod,
           'customerId' => $customerId,
@@ -177,7 +185,8 @@ class EzypayFake {
         return $paymentMethod;
     }
 
-    public function updateSubscription(string $subscriptionId, string $paymentMethodToken) {
+    public function updateSubscription(string $subscriptionId, string $paymentMethodToken)
+    {
         $subscription = [
         'id' => $subscriptionId,
         'customerId' => $this->faker->uuid,
@@ -261,11 +270,13 @@ class EzypayFake {
         return $subscription;
     }
 
-    public function replacePaymentMethod() {
+    public function replacePaymentMethod()
+    {
         return [];
     }
 
-    public function createCustomer(string $firstName = null, string $lastName = null, string $email = null, string $address1 = null, string $address2 = null, string $postCode = null, string $city = null, string $state = null, string $country = null, string $companyName = null, string $identifierType = null, int $identifierID = null) {
+    public function createCustomer(string $firstName = null, string $lastName = null, string $email = null, string $address1 = null, string $address2 = null, string $postCode = null, string $city = null, string $state = null, string $country = null, string $companyName = null, string $identifierType = null, int $identifierID = null)
+    {
         $countryCode = substr($country ?? $this->faker->country, 0, 2);
         $customerDetails = [
             'id' => '93f3dee2-5424-4c06-be14-4fa6c2caa71b',
@@ -297,7 +308,8 @@ class EzypayFake {
         return $customerDetails;
     }
 
-    public function cancelSubscription(string $subscriptionId) {
+    public function cancelSubscription(string $subscriptionId)
+    {
         $subscription = [
           'id' => $subscriptionId,
           'customerId' => $this->faker->uuid,
@@ -381,7 +393,8 @@ class EzypayFake {
         return $subscription;
     }
 
-    public function createBankPaymentMethod(string $accountHolderName, string $accountNumber, string $bsb, string $country = 'AU') {
+    public function createBankPaymentMethod(string $accountHolderName, string $accountNumber, string $bsb, string $country = 'AU')
+    {
         $vault = [
           'type' => 'BANK',
           'bank' => [
@@ -399,7 +412,8 @@ class EzypayFake {
         return $vault;
     }
 
-    public function getVaultPaymentMethodToken(string $token) {
+    public function getVaultPaymentMethodToken(string $token)
+    {
         $accountNumber = $this->faker->randomNumber(9);
         $vault = [
         'type' => 'BANK',
@@ -418,7 +432,8 @@ class EzypayFake {
         return $vault;
     }
 
-    public function getTransactions(bool $fetchAll = false, string $transactionNumber = null, string $senderId = null, string $documentId = null, int $limit = null, int $cursor = null, string $from = null, string $until = null, string $status = null) {
+    public function getTransactions(bool $fetchAll = false, string $transactionNumber = null, string $senderId = null, string $documentId = null, int $limit = null, int $cursor = null, string $from = null, string $until = null, string $status = null)
+    {
         $transactions = [
         'data' => [
           [
@@ -470,7 +485,8 @@ class EzypayFake {
         return $transactions;
     }
 
-    public function getTransaction(string $transactionId) {
+    public function getTransaction(string $transactionId)
+    {
         $transaction = [
           'id' => $transactionId,
           'number' => null,
@@ -512,7 +528,8 @@ class EzypayFake {
         return $transaction;
     }
 
-    public function activateSubscription(string $subscriptionId, string $startDate = null, string $paymentMethodToken = null) {
+    public function activateSubscription(string $subscriptionId, string $startDate = null, string $paymentMethodToken = null)
+    {
         $subscription = [
         'id' => $subscriptionId,
         'customerId' => $this->faker->uuid,
@@ -596,7 +613,8 @@ class EzypayFake {
         return $subscription;
     }
 
-    public function getSubscriptions() {
+    public function getSubscriptions()
+    {
         $subscriptions = [
           'data' => [
             [
@@ -690,7 +708,8 @@ class EzypayFake {
         return $subscriptions;
     }
 
-    public function previewSubscription(string $customerId, string $planId, string $paymentMethodToken = null, Carbon $startDate = null, bool $markAsPending = false) {
+    public function previewSubscription(string $customerId, string $planId, string $paymentMethodToken = null, Carbon $startDate = null, bool $markAsPending = false)
+    {
         $subscription = [
           'data' => [
             [
@@ -784,7 +803,8 @@ class EzypayFake {
         return $subscription;
     }
 
-    public function groupSettlementReportByTransactionStatus(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = []) {
+    public function groupSettlementReportByTransactionStatus(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = [])
+    {
         $settlementGroup = [
           'fileId' => 'Test123445',
           'documentType' => 'groupedby_transactionstatus',
@@ -793,7 +813,8 @@ class EzypayFake {
         return $settlementGroup;
     }
 
-    public function groupSettlementReportByAccountingCode(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = []) {
+    public function groupSettlementReportByAccountingCode(string $dateFrom = null, string $dateTo = null, string $documentType = null, array $merchantIds = [])
+    {
         $settlementGroup = [
           'fileId' => 'Test1234',
           'documentType' => 'groupedby_accountingcode',
@@ -802,7 +823,8 @@ class EzypayFake {
         return $settlementGroup;
     }
 
-    public function getSettlements(bool $fetchAll = false, string $from = null, string $until = null, int $limit = null, int $cursor = null) {
+    public function getSettlements(bool $fetchAll = false, string $from = null, string $until = null, int $limit = null, int $cursor = null)
+    {
         $settlements = [
           [
             'data' => [],
@@ -812,7 +834,8 @@ class EzypayFake {
         return $settlements;
     }
 
-    public function createPlan(string $name, string $accountingCode, float $taxInclusiveAmt, string $status = 'active', float $taxRate = 10.00, string $intervalUnit = 'month', int $interval = 1, string $billingStart = 'day_of_month', string $billingEnd = 'ongoing', string $firstBilling = 'prorate', $metadata = null, string $memo = '', string $billingStartValue = '1') {
+    public function createPlan(string $name, string $accountingCode, float $taxInclusiveAmt, string $status = 'active', float $taxRate = 10.00, string $intervalUnit = 'month', int $interval = 1, string $billingStart = 'day_of_month', string $billingEnd = 'ongoing', string $firstBilling = 'prorate', $metadata = null, string $memo = '', string $billingStartValue = '1')
+    {
         $plan = [
           'id' => $this->faker->uuid,
           'status' => 'ACTIVE',
@@ -849,7 +872,8 @@ class EzypayFake {
         return $plan;
     }
 
-    public function getPlan(string $id) {
+    public function getPlan(string $id)
+    {
         $plan = [
           'id' => $this->faker->uuid,
           'status' => 'ACTIVE',
@@ -886,7 +910,8 @@ class EzypayFake {
         return $plan;
     }
 
-    public function getPlans(bool $fetchAll = false, int $limit = null, int $cursor = null, string $name = null, string $status = null) {
+    public function getPlans(bool $fetchAll = false, int $limit = null, int $cursor = null, string $name = null, string $status = null)
+    {
         $plan = [
           'data' => [
             [
@@ -933,7 +958,8 @@ class EzypayFake {
         return $plan;
     }
 
-    public function updatePlan(string $planId, string $name = null, string $accountingCode = null, float $taxInclusiveAmt = null, string $status = 'active', float $taxRate = 10.00, string $intervalUnit = 'month', int $interval = 1, string $billingStart = 'day_of_month', string $billingEnd = 'ongoing', string $firstBilling = 'prorate', $metadata = null, string $memo = '', string $billingStartValue = '1') {
+    public function updatePlan(string $planId, string $name = null, string $accountingCode = null, float $taxInclusiveAmt = null, string $status = 'active', float $taxRate = 10.00, string $intervalUnit = 'month', int $interval = 1, string $billingStart = 'day_of_month', string $billingEnd = 'ongoing', string $firstBilling = 'prorate', $metadata = null, string $memo = '', string $billingStartValue = '1')
+    {
         $plan = [
           'id' => $planId,
           'status' => 'ACTIVE',
@@ -970,7 +996,8 @@ class EzypayFake {
         return $plan;
     }
 
-    public function getPrimaryPaymentMethod(string $customerId) {
+    public function getPrimaryPaymentMethod(string $customerId)
+    {
         $paymentMethod = [
           'paymentMethodToken' => $this->faker->uuid,
           'customerId' => $customerId,
@@ -993,7 +1020,8 @@ class EzypayFake {
         return $paymentMethod;
     }
 
-    public function getPaymentMethod(string $customerId, string $paymentMethodToken) {
+    public function getPaymentMethod(string $customerId, string $paymentMethodToken)
+    {
         $paymentMethod = [
           'paymentMethodToken' => $paymentMethodToken,
           'customerId' => $customerId,
@@ -1016,11 +1044,13 @@ class EzypayFake {
         return $paymentMethod;
     }
 
-    public function deletePaymentMethodByCustomerId() {
+    public function deletePaymentMethodByCustomerId()
+    {
         throw new \Exception('Unable to delete primary payment method');
     }
 
-    public function getPaymentMethods(string $customerId, bool $fetchAll = false, int $limit = null, int $cursor = null) {
+    public function getPaymentMethods(string $customerId, bool $fetchAll = false, int $limit = null, int $cursor = null)
+    {
         return [
           'data' => [
             [
@@ -1051,13 +1081,15 @@ class EzypayFake {
         ];
     }
 
-    public function getMerchant() {
+    public function getMerchant()
+    {
         $merchant = ['name' => 'Harmonic New Media Test'];
 
         return $merchant;
     }
 
-    public function getInvoices(bool $fetchAll = false, string $customerId = null, string $subscriptionId = null, string $status = null, string $from = null, string $until = null, int $limit = null, int $cursor = null) {
+    public function getInvoices(bool $fetchAll = false, string $customerId = null, string $subscriptionId = null, string $status = null, string $from = null, string $until = null, int $limit = null, int $cursor = null)
+    {
         $invoices = [
           'data' => [
             [
@@ -1127,7 +1159,8 @@ class EzypayFake {
         return $invoices;
     }
 
-    public function getInvoice(string $invoiceId) {
+    public function getInvoice(string $invoiceId)
+    {
         $invoice = [
           'id' => $invoiceId,
           'status' => 'PROCESSING',
@@ -1139,7 +1172,8 @@ class EzypayFake {
         return $invoice;
     }
 
-    public function writeOffAnInvoice(string $invoiceId) {
+    public function writeOffAnInvoice(string $invoiceId)
+    {
         $invoices = [
           'id' => $invoiceId,
           'status' => 'WRITTEN_OFF',
@@ -1148,7 +1182,8 @@ class EzypayFake {
         return $invoices;
     }
 
-    public function createInvoice(string $customerId, array $items, string $paymentMethodToken = null, string $memo = null, bool $autoPayment = true, string $scheduledPaymentDate = null) {
+    public function createInvoice(string $customerId, array $items, string $paymentMethodToken = null, string $memo = null, bool $autoPayment = true, string $scheduledPaymentDate = null)
+    {
         $invoice = [
           'id' => $this->faker->uuid,
           'documentNumber' => 'IN0000000000000628',
@@ -1194,7 +1229,8 @@ class EzypayFake {
         return $invoice;
     }
 
-    public function retryPayment(string $invoiceId, bool $oneOff = false, string $paymentMethodToken = null) {
+    public function retryPayment(string $invoiceId, bool $oneOff = false, string $paymentMethodToken = null)
+    {
         $invoices = [
           'id' => $invoiceId,
           'status' => 'PROCESSING',
@@ -1203,7 +1239,8 @@ class EzypayFake {
         return $invoices;
     }
 
-    public function recordExternalPayment(string $invoiceId, string $paymentMethodType = null) {
+    public function recordExternalPayment(string $invoiceId, string $paymentMethodType = null)
+    {
         $payment = [
           'id' => $invoiceId,
           'documentNumber' => 'IN0000000000000628',
@@ -1263,7 +1300,8 @@ class EzypayFake {
         return $payment;
     }
 
-    public function getFutureInvoices(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false) {
+    public function getFutureInvoices(string $subscriptionId, string $customerId, string $from, string $until, int $limit = null, bool $fetchAll = false)
+    {
         $futureInvoice = [
           'data' => [
             [
@@ -1308,14 +1346,16 @@ class EzypayFake {
         return $futureInvoice;
     }
 
-    public function deleteFutureInvoice() {
+    public function deleteFutureInvoice()
+    {
         return [
           'entityId' => $this->faker->uuid,
           'delete' => 'true',
         ];
     }
 
-    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = []) {
+    public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = [])
+    {
         return [
           'data' => [
             [
@@ -1358,7 +1398,8 @@ class EzypayFake {
         ];
     }
 
-    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType) {
+    public function createFutureInvoice(string $subscriptionId, string $cycleStartDate, string $paymentMethodType)
+    {
         $futureInvoice = [
           'id' => $this->faker->uuid,
           'documentNumber' => $this->faker->word,
@@ -1424,7 +1465,8 @@ class EzypayFake {
         return $futureInvoice;
     }
 
-    public function refundInvoice(string $invoiceId, string $amountCurrency, int $amountValue, array $items = []) {
+    public function refundInvoice(string $invoiceId, string $amountCurrency, int $amountValue, array $items = [])
+    {
         $invoices = [
           'id' => $invoiceId,
           'documentNumber' => $this->faker->word,
@@ -1543,7 +1585,8 @@ class EzypayFake {
         return $customers;
     }
 
-    public function getCustomer(string $customerId) {
+    public function getCustomer(string $customerId)
+    {
         $customer = [
           'id' => $customerId,
           'number' => 'EZY73520',
@@ -1661,7 +1704,8 @@ class EzypayFake {
         return $notes;
     }
 
-    public function getCreditNote(string $creditNoteId) {
+    public function getCreditNote(string $creditNoteId)
+    {
         $note = [
           'id' => $creditNoteId,
           'invoiceId' => $this->faker->uuid,
@@ -1679,7 +1723,8 @@ class EzypayFake {
         return $note;
     }
 
-    private function requestToken(string $refreshToken = null) {
+    private function requestToken(string $refreshToken = null)
+    {
         $tokenObj = [
           'refresh_token' => $this->faker->uuid,
           'access_token' => $this->faker->uuid,
@@ -1690,11 +1735,13 @@ class EzypayFake {
         return $tokenObj;
     }
 
-    private function getAccessToken() {
+    private function getAccessToken()
+    {
         return $this->faker->uuid;
     }
 
-    public function getWebhooks(int $limit = null, int $cursor = null) {
+    public function getWebhooks(int $limit = null, int $cursor = null)
+    {
         return [
         'resultCount' => 1,
         'totalCount' => 1,
@@ -1719,7 +1766,8 @@ class EzypayFake {
       ];
     }
 
-    public function createWebhook(string $url, array $eventTypes) {
+    public function createWebhook(string $url, array $eventTypes)
+    {
         return [
         'id' => '31027aca-9b31-4462-a34e-42f70eceb243',
         'createdOn' => '2019-07-12T08:59:21.036',
@@ -1728,7 +1776,8 @@ class EzypayFake {
       ];
     }
 
-    public function getWebhookNotificationLogs() {
+    public function getWebhookNotificationLogs()
+    {
         return [
         'resultCount' => 0,
         'totalCount' => 0,
@@ -1736,7 +1785,8 @@ class EzypayFake {
       ];
     }
 
-    public function simulateWebHook(string $eventType) {
+    public function simulateWebHook(string $eventType)
+    {
         return [
         'event' => $eventType,
         'callbackUrls' => [
@@ -1745,7 +1795,8 @@ class EzypayFake {
       ];
     }
 
-    public function getWebhookDetails(string $webhookId) {
+    public function getWebhookDetails(string $webhookId)
+    {
         return [
         'id' => $webhookId,
         'createdOn' => '2019-07-12T08:59:21.036',
@@ -1756,7 +1807,8 @@ class EzypayFake {
       ];
     }
 
-    public function updateWebhook(string $webhookId, array $eventTypes = [], string $url = null, string $updatedClientKey = null) {
+    public function updateWebhook(string $webhookId, array $eventTypes = [], string $url = null, string $updatedClientKey = null)
+    {
         return [
         'id' => $webhookId,
         'createdOn' => '2019-07-12T09:11:24.047',
@@ -1765,14 +1817,16 @@ class EzypayFake {
       ];
     }
 
-    public function deleteWebhook(string $webhookId) {
+    public function deleteWebhook(string $webhookId)
+    {
         return [
         'entityId' => $webhookId,
         'deleted' => true,
       ];
     }
 
-    public function resendEvent(string $eventId) {
+    public function resendEvent(string $eventId)
+    {
         return [];
     }
 }
