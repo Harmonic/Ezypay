@@ -2,6 +2,11 @@
 
 All notable changes to `Ezypay` will be documented in this file.
 
+## Version 1.0.2
+
+### Added
+- Webhook security tokens
+
 ## Version 1.0.1
 
 ### Fixed

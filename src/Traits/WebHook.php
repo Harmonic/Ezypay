@@ -5,8 +5,7 @@ namespace harmonic\Ezypay\Traits;
 use harmonic\Ezypay\Enums\WebHookEventTypes;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-trait WebHook
-{
+trait WebHook {
     /**
      * List webhooks.
      *
@@ -14,8 +13,7 @@ trait WebHook
      * @param int $cursor
      * @return array Object Webhooks
      */
-    public function getWebhooks(int $limit = null, int $cursor = null)
-    {
+    public function getWebhooks(int $limit = null, int $cursor = null) {
         $filters = [
             'limit' => $limit,
             'cursor' => $cursor,
@@ -29,14 +27,18 @@ trait WebHook
      *
      * @param string $url The webhook endpoint to call
      * @param array $eventTypes The EzypayWebHookEventType that causes the webhook to be called
+     * @param string $clientKey Protect the webhook with a client key (optional)
      * @return obj Webhook details
      */
-    public function createWebHook(string $url, array $eventTypes)
-    {
+    public function createWebHook(string $url, array $eventTypes, string $clientKey = null) {
         $data = [
             'url' => $url,
             'eventTypes' => $eventTypes,
         ];
+
+        if ($clientKey !== null) {
+            $data['clientKey'] = $clientKey;
+        }
 
         $response = $this->request('POST', 'webhooks', $data);
 
@@ -53,8 +55,7 @@ trait WebHook
      * @param string $status
      * @return void
      */
-    public function getWebhookNotificationLogs(string $eventId = null, string $eventType = null, string $status = null, int $limit = null, int $cursor = null)
-    {
+    public function getWebhookNotificationLogs(string $eventId = null, string $eventType = null, string $status = null, int $limit = null, int $cursor = null) {
         $filters = [
             'limit' => $limit,
             'cursor' => $cursor,
@@ -72,13 +73,12 @@ trait WebHook
      * @param string $eventType
      * @return void
      */
-    public function simulateWebHook(string $eventType)
-    {
+    public function simulateWebHook(string $eventType) {
         if (config('app.env') == 'production') {
             throw new \Exception('Cannot run webhook test in production');
         }
 
-        if ($eventType !== null && ! WebHookEventTypes::hasKey($eventType)) {
+        if ($eventType !== null && !WebHookEventTypes::hasKey($eventType)) {
             throw new InvalidParameterException("Event type must be a valid event type from harmonic\Enums\WebHookEventTypes");
         }
         $data['eventType'] = $eventType;
@@ -94,9 +94,8 @@ trait WebHook
      * @param string $webhookId
      * @return void
      */
-    public function getWebhookDetails(string $webhookId)
-    {
-        $response = $this->request('GET', 'webhooks/'.$webhookId);
+    public function getWebhookDetails(string $webhookId) {
+        $response = $this->request('GET', 'webhooks/' . $webhookId);
 
         return \harmonic\Ezypay\Resources\WebHook::make($response)->resolve();
     }
@@ -107,20 +106,24 @@ trait WebHook
      * @param string $webhookId
      * @param string $url
      * @param array $eventTypes
-     * @param string $bodyWebhookId Please see https://developer.ezypay.com/reference#updatewebhookusingput under body params
-     * @param bool $updateSecurity
+     * @param string $webhookId Please see https://developer.ezypay.com/reference#updatewebhookusingput under body params
+     * @param string $clientKey Change the webhook client key (optional)
      * @return object Webhook
      */
-    public function updateWebhook(string $webhookId, string $url = null, array $eventTypes = [], string $bodyWebhookId = null, bool $updateSecurity = true)
-    {
+    public function updateWebhook(string $webhookId, string $url = null, array $eventTypes = [], string $updatedClientKey) {
         $data = [
             'url' => $url,
             'eventTypes' => $eventTypes,
-            'webhookId' => $bodyWebhookId,
-            'updateSecurity' => $updateSecurity,
+            'webhookId' => $webhookId,
+            'updateSecurity' => false,
         ];
 
-        $response = $this->request('PUT', 'webhooks/'.$webhookId, $data);
+        if ($updatedClientKey !== null) {
+            $data['updateSecurity'] = true;
+            $data['updatedClientKey'] = $updatedClientKey;
+        }
+
+        $response = $this->request('PUT', 'webhooks/' . $webhookId, $data);
 
         return \harmonic\Ezypay\Resources\WebHook::make($response)->resolve();
     }
@@ -131,8 +134,7 @@ trait WebHook
      * @param string $webhookId
      * @return void
      */
-    public function deleteWebhook(string $webhookId)
-    {
-        return $this->request('DELETE', 'webhooks/'.$webhookId);
+    public function deleteWebhook(string $webhookId) {
+        return $this->request('DELETE', 'webhooks/' . $webhookId);
     }
 }
