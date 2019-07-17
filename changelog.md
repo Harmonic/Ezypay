@@ -2,6 +2,11 @@
 
 All notable changes to `Ezypay` will be documented in this file.
 
+## Version 1.0.6
+
+### Fixed
+- Expanded enum in Webhook trait
+
 ## Version 1.0.5
 
 ### Fixed
