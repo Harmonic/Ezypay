@@ -5,8 +5,7 @@ namespace harmonic\Ezypay\Traits;
 use harmonic\Ezypay\Enums\WebHookEventTypes;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-trait WebHook
-{
+trait WebHook {
     /**
      * List webhooks.
      *
@@ -14,8 +13,7 @@ trait WebHook
      * @param int $cursor
      * @return array Object Webhooks
      */
-    public function getWebhooks(int $limit = null, int $cursor = null)
-    {
+    public function getWebhooks(int $limit = null, int $cursor = null) {
         $filters = [
             'limit' => $limit,
             'cursor' => $cursor,
@@ -32,8 +30,7 @@ trait WebHook
      * @param string $clientKey Protect the webhook with a client key (optional)
      * @return obj Webhook details
      */
-    public function createWebHook(string $url, array $eventTypes, string $clientKey = null)
-    {
+    public function createWebHook(string $url, array $eventTypes, string $clientKey = null) {
         $data = [
             'url' => $url,
             'eventTypes' => $eventTypes,
@@ -58,8 +55,7 @@ trait WebHook
      * @param string $status
      * @return void
      */
-    public function getWebhookNotificationLogs(string $eventId = null, string $eventType = null, string $status = null, int $limit = null, int $cursor = null)
-    {
+    public function getWebhookNotificationLogs(string $eventId = null, string $eventType = null, string $status = null, int $limit = null, int $cursor = null) {
         $filters = [
             'limit' => $limit,
             'cursor' => $cursor,
@@ -77,13 +73,12 @@ trait WebHook
      * @param string $eventType
      * @return void
      */
-    public function simulateWebHook(string $eventType)
-    {
+    public function simulateWebHook(string $eventType) {
         if (config('app.env') == 'production') {
             throw new \Exception('Cannot run webhook test in production');
         }
 
-        if ($eventType !== null && ! WebHookEventTypes::hasKey($eventType)) {
+        if ($eventType !== null && !WebHookEventTypes::hasKey($eventType)) {
             throw new InvalidParameterException("Event type must be a valid event type from harmonic\Enums\WebHookEventTypes");
         }
         $data['eventType'] = $eventType;
@@ -99,9 +94,8 @@ trait WebHook
      * @param string $webhookId
      * @return void
      */
-    public function getWebhookDetails(string $webhookId)
-    {
-        $response = $this->request('GET', 'webhooks/'.$webhookId);
+    public function getWebhookDetails(string $webhookId) {
+        $response = $this->request('GET', 'webhooks/' . $webhookId);
 
         return \harmonic\Ezypay\Resources\WebHook::make($response)->resolve();
     }
@@ -116,8 +110,7 @@ trait WebHook
      * @param string $clientKey Change the webhook client key (optional)
      * @return object Webhook
      */
-    public function updateWebhook(string $webhookId, array $eventTypes, string $url = null, string $updatedClientKey = null)
-    {
+    public function updateWebhook(string $webhookId, array $eventTypes, string $url = null, string $updatedClientKey = null) {
         $data = [
             'url' => $url,
             'eventTypes' => $eventTypes,
@@ -130,7 +123,7 @@ trait WebHook
             $data['updatedClientKey'] = $updatedClientKey;
         }
 
-        $response = $this->request('PUT', 'webhooks/'.$webhookId, $data);
+        $response = $this->request('PUT', 'webhooks/' . $webhookId, $data);
 
         return \harmonic\Ezypay\Resources\WebHook::make($response)->resolve();
     }
@@ -141,8 +134,7 @@ trait WebHook
      * @param string $webhookId
      * @return void
      */
-    public function deleteWebhook(string $webhookId)
-    {
-        return $this->request('DELETE', 'webhooks/'.$webhookId);
+    public function deleteWebhook(string $webhookId) {
+        return $this->request('DELETE', 'webhooks/' . $webhookId);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace harmonic\Enums;
+namespace harmonic\Ezypay\Enums;
 
 use BenSampo\Enum\Enum;
 
