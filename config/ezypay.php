@@ -13,8 +13,8 @@ if (env('APP_ENV') !== 'production') {
 }
 
 // Append /v2/ on vault and API URL
-$url = $url . '/v2/';
-$vaultURL = $vaultURL . '/v2/';
+$url = $url.'/v2/';
+$vaultURL = $vaultURL.'/v2/';
 
 return [
     /*
