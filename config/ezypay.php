@@ -13,8 +13,8 @@ if (env('APP_ENV') !== 'production') {
 }
 
 // Append /v2/ on vault and API URL
-$url = $url.'/v2/';
-$vaultURL = $vaultURL.'/v2/';
+$url = $url . '/v2/';
+$vaultURL = $vaultURL . '/v2/';
 
 return [
     /*
@@ -30,5 +30,5 @@ return [
     'token_url' => $tokenURL,
     'vault_url' => $vaultURL,
     'failed_payment_fee' => 9.79,
-    'trial_days' => 14, // Number of days that are free after signing up (also in config/sharelink.php)
+    'trial_days' => 14, // Number of days that are free after signing up
 ];

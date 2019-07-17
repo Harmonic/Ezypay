@@ -1,11 +1,10 @@
 <?php
 
-namespace ShareLink\Enums;
+namespace harmonic\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class WebHookEventTypes extends Enum
-{
+final class WebHookEventTypes extends Enum {
     const customer_update = 1;
     const customer_create = 2;
     const invoice_created = 3;
