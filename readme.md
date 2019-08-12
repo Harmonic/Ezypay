@@ -77,6 +77,8 @@ Please see the [changelog](changelog.md) for more information on what has change
 
 ## Tests
 
+Add a .env file containing your Ezypay details, then:
+
 ``` bash
 $ vendor/bin/phpunit
 ```
