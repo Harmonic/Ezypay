@@ -47,11 +47,14 @@ class Ezypay
     /**
      * Send a request to the Ezypay API.
      *
+     * @param string $method The method to call
      * @param string $uri The uri of the request eg. clients
      * @param array $params An array of parameters to send with the request
+     * @param bool $forceQuery Include query param in PATCH request
+     * @param int $retries The number of times this request has failed (defaults to 0)
      * @return object The object returned by the API
      */
-    private function request(string $method, string $uri, array $params = [], bool $forceQuery = false)
+    private function request(string $method, string $uri, array $params = [], bool $forceQuery = false, int $retries = 0)
     {
         $client = new Client(); //GuzzleHttp\Client
         $url = config('ezypay.url').$uri;
@@ -89,7 +92,11 @@ class Ezypay
         //TODO: If ($response->getStatusCode() != "200")
         if ($response->getStatusCode() == 401) {
             Storage::disk('local')->delete($this->tokenFile);
-            $this->getAccessToken(); // let this fail, but on rety it should be ok
+            $this->getAccessToken();
+            if ($retries < 1) { // Try the request again now we have a new access token
+                $retries++;
+                $this->request($method, $uri, $params, $forceQuery, $retries);
+            }
         }
 
         return $this->processResponse($response);
