@@ -5,14 +5,16 @@ namespace harmonic\Ezypay\Tests;
 use harmonic\Ezypay\Ezypay;
 use Illuminate\Support\Facades\Storage;
 
-class ConnectionTest extends \Orchestra\Testbench\TestCase {
+class ConnectionTest extends \Orchestra\Testbench\TestCase
+{
     /**
      * get token.
      *
      * @test
      * @return void
      */
-    public function getFreshToken() {
+    public function getFreshToken()
+    {
         // Set up an expired token to test with
         $dotenv = \Dotenv\Dotenv::create(__DIR__, '../.env');
         $dotenv->load();
