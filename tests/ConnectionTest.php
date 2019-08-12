@@ -17,7 +17,7 @@ class ConnectionTest extends \Orchestra\Testbench\TestCase {
         try {
             $dotenv = \Dotenv\Dotenv::create(__DIR__, '../.env');
             $dotenv->load();
-        } catch (Exception $e) {
+        } catch (\Dotenv\Exception\InvalidPathException $e) {
             $this->markTestSkipped('Do not test this on travis for now.');
         }
 
