@@ -90,7 +90,7 @@ class Ezypay
         $response = $client->request($method, $url, $data);
 
         //TODO: If ($response->getStatusCode() != "200")
-        if ($response->getStatusCode() == 401) {
+        if ($response->getStatusCode() == 401 || $response->getStatusCode() == 400) {
             Storage::disk('local')->delete($this->tokenFile);
             $this->getAccessToken();
             if ($retries < 1) { // Try the request again now we have a new access token
