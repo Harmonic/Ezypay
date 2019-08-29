@@ -1309,7 +1309,6 @@ class EzypayFake {
 
     public function updateFutureInvoice(string $subscriptionId, string $cycleStartDate, string $date, array $items = []) {
         return [
-          'data' => [
             [
               'subscriptionId' => $subscriptionId,
               'date' => '2019-07-01',
@@ -1339,14 +1338,7 @@ class EzypayFake {
                 'value' => 0,
                 'type' => null,
               ],
-            ],
-          ],
-          'paging' => [
-            'nextUrl' => null,
-            'nextCursor' => 0,
-            'limit' => 0,
-            'totalCount' => 2,
-          ],
+            ]
         ];
     }
 

@@ -5,16 +5,14 @@ namespace harmonic\Ezypay\Tests;
 use Illuminate\Support\Carbon;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class FutureInvoiceTest extends EzypayBaseTest
-{
+class FutureInvoiceTest extends EzypayBaseTest {
     /**
      * Can record external payment future invoice.
      *
      * @test
      * @return void
      */
-    public function canRecordExternalPayment()
-    {
+    public function canRecordExternalPayment() {
         // Arrange
         $customer = Ezypay::createCustomer();
         $subscription = Ezypay::createSubscription($customer['id']);
@@ -34,8 +32,7 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canGetListOfFutureInvoices()
-    {
+    public function canGetListOfFutureInvoices() {
         // Arrange
         $subscription = Ezypay::getSubscription($this->faker->uuid);
         $startDate = Carbon::now()->addDays(30)->toDateString();
@@ -52,7 +49,7 @@ class FutureInvoiceTest extends EzypayBaseTest
 
         // Assert
         $this->assertNotNull($futureInvoices);
-        $this->assertEquals($subscription['id'], $futureInvoices['data'][0]['subscriptionId']);
+        $this->assertEquals($subscription['id'], $futureInvoices[0]['subscriptionId']);
 
         $this->futureInvoices = $futureInvoices;
     }
@@ -63,19 +60,18 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canUpdateFutureInvoice()
-    {
+    public function canUpdateFutureInvoice() {
         // Arrange
         $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
         // Act
-        $invoice = $futureInvoices['data'][0];
+        $invoice = $futureInvoices[0];
         $futureInvoice = Ezypay::updateFutureInvoice($invoice['subscriptionId'], $invoice['cycleStartDate'], $invoice['cycleStartDate']);
 
         // Assert
         $this->assertNotNull($futureInvoice);
-        $this->assertEquals($invoice['subscriptionId'], $futureInvoice['data'][0]['subscriptionId']);
-        $this->assertEquals($invoice['cycleStartDate'], $futureInvoice['data'][0]['cycleStartDate']);
+        $this->assertEquals($invoice['subscriptionId'], $futureInvoice[0]['subscriptionId']);
+        $this->assertEquals($invoice['cycleStartDate'], $futureInvoice[0]['cycleStartDate']);
     }
 
     /**
@@ -84,13 +80,12 @@ class FutureInvoiceTest extends EzypayBaseTest
      * @test
      * @return void
      */
-    public function canDeleteInvoice()
-    {
+    public function canDeleteInvoice() {
         // Arrange
         $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
         // Act
-        $invoice = $futureInvoices['data'][0];
+        $invoice = $futureInvoices[0];
         $futureInvoice = Ezypay::deleteFutureInvoice($invoice['subscriptionId'], $invoice['cycleStartDate']);
 
         // Assert
