@@ -5,14 +5,16 @@ namespace harmonic\Ezypay\Tests;
 use Illuminate\Support\Carbon;
 use harmonic\Ezypay\Facades\Ezypay;
 
-class FutureInvoiceTest extends EzypayBaseTest {
+class FutureInvoiceTest extends EzypayBaseTest
+{
     /**
      * Can record external payment future invoice.
      *
      * @test
      * @return void
      */
-    public function canRecordExternalPayment() {
+    public function canRecordExternalPayment()
+    {
         // Arrange
         $customer = Ezypay::createCustomer();
         $subscription = Ezypay::createSubscription($customer['id']);
@@ -32,7 +34,8 @@ class FutureInvoiceTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canGetListOfFutureInvoices() {
+    public function canGetListOfFutureInvoices()
+    {
         // Arrange
         $subscription = Ezypay::getSubscription($this->faker->uuid);
         $startDate = Carbon::now()->addDays(30)->toDateString();
@@ -60,7 +63,8 @@ class FutureInvoiceTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canUpdateFutureInvoice() {
+    public function canUpdateFutureInvoice()
+    {
         // Arrange
         $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
@@ -80,7 +84,8 @@ class FutureInvoiceTest extends EzypayBaseTest {
      * @test
      * @return void
      */
-    public function canDeleteInvoice() {
+    public function canDeleteInvoice()
+    {
         // Arrange
         $futureInvoices = Ezypay::getFutureInvoices($this->faker->uuid, $this->faker->uuid, Carbon::now()->sub('1 month'), Carbon::now());
 
