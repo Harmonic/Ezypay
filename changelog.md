@@ -2,6 +2,11 @@
 
 All notable changes to `Ezypay` will be documented in this file.
 
+## Version 1.0.11
+
+### Fixed
+- Requesting new token on expiry rather than a renewal
+
 ## Version 1.0.6
 
 ### Fixed
